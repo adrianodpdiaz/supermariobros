@@ -3,6 +3,7 @@ package com.dg.supermariobros.screens;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
@@ -16,6 +17,7 @@ import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.dg.supermariobros.SuperMarioBros;
 import com.dg.supermariobros.scenes.Hud;
+import com.dg.supermariobros.sounds.SoundManager;
 import com.dg.supermariobros.sprites.Mario;
 import com.dg.supermariobros.tools.B2WorldCreator;
 import com.dg.supermariobros.tools.WorldContactListener;
@@ -40,6 +42,8 @@ public class PlayScreen implements Screen {
 
     // Sprites
     private Mario player;
+
+    private Music music;
 
     public PlayScreen(SuperMarioBros game) {
         atlas = new TextureAtlas("goku.pack");
@@ -75,6 +79,11 @@ public class PlayScreen implements Screen {
 
         // creates Mario in the game world
         player = new Mario(world, this);
+
+        music = new SoundManager().getAssetManager().get("audio/music/main_music.mp3", Music.class);
+        music.setLooping(true);
+        music.setVolume(0.5f);
+        music.play();
 
         world.setContactListener(new WorldContactListener());
     }

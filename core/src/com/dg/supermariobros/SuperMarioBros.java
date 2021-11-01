@@ -1,10 +1,7 @@
 package com.dg.supermariobros;
 
-import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Game;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.utils.ScreenUtils;
 import com.dg.supermariobros.screens.PlayScreen;
 
 public class SuperMarioBros extends Game {
@@ -31,4 +28,9 @@ public class SuperMarioBros extends Game {
 		super.render();
 	}
 
+	@Override
+	public void dispose() {
+		super.dispose();
+		batch.dispose();
+	}
 }

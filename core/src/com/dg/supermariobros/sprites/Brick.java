@@ -1,12 +1,13 @@
 package com.dg.supermariobros.sprites;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.physics.box2d.World;
-import com.badlogic.gdx.utils.Null;
 import com.dg.supermariobros.SuperMarioBros;
 import com.dg.supermariobros.scenes.Hud;
+import com.dg.supermariobros.sounds.SoundManager;
 
 public class Brick extends InteractiveTileObject {
 
@@ -19,6 +20,8 @@ public class Brick extends InteractiveTileObject {
     @Override
     public void onHeadHit() {
         Gdx.app.log("brick", "collision");
+        new SoundManager().getAssetManager().get("audio/sounds/breakblock.wav", Sound.class).play();
+
         setCategoryFilter(SuperMarioBros.DESTROYED_BIT);
         getCell().setTile(null);
         Hud.addScore(200);
