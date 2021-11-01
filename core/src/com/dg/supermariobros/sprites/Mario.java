@@ -3,9 +3,11 @@ package com.dg.supermariobros.sprites;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.g2d.Animation;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.CircleShape;
+import com.badlogic.gdx.physics.box2d.EdgeShape;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.Array;
@@ -18,7 +20,7 @@ public class Mario extends Sprite {
         JUMPING,
         STANDING,
         RUNNING
-    };
+    }
     public State currentState;
     public State previousState;
 
@@ -30,8 +32,6 @@ public class Mario extends Sprite {
     private Animation<TextureRegion> marioJump;
     private float stateTimer;
     private boolean runningRight;
-
-
 
     public Mario (World world, PlayScreen screen) {
         super(screen.getAtlas().findRegion("goku1"));
@@ -53,7 +53,6 @@ public class Mario extends Sprite {
             frames.add(new TextureRegion(getTexture(), i * 19, 0, 20, 20));
         }
         marioJump = new Animation<TextureRegion>(0.1f, frames);
-
 
         /*
         marioStand = new TextureRegion(getTexture(), 32, 269, 38, 54);
@@ -120,13 +119,19 @@ public class Mario extends Sprite {
         b2dBody = world.createBody(bodyDef);
 
         FixtureDef fixtureDef = new FixtureDef();
-
         CircleShape shape = new CircleShape();
-
-
         shape.setRadius(8 / SuperMarioBros.PPM);
+        fixtureDef.filter.categoryBits = SuperMarioBros.MARIO_BIT;
+        fixtureDef.filter.maskBits = SuperMarioBros.DEFAULT_BIT | SuperMarioBros.BRICK_BIT | SuperMarioBros.COIN_BIT;
 
         fixtureDef.shape = shape;
         b2dBody.createFixture(fixtureDef);
+
+        EdgeShape head = new EdgeShape();
+        head.set(new Vector2(-2 / SuperMarioBros.PPM, 7 / SuperMarioBros.PPM),
+                new Vector2(2 / SuperMarioBros.PPM, 7 / SuperMarioBros.PPM));
+        fixtureDef.shape = head;
+        fixtureDef.isSensor = true;
+        b2dBody.createFixture(fixtureDef).setUserData("head");
     }
 }

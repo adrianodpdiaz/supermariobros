@@ -18,6 +18,7 @@ import com.dg.supermariobros.SuperMarioBros;
 import com.dg.supermariobros.scenes.Hud;
 import com.dg.supermariobros.sprites.Mario;
 import com.dg.supermariobros.tools.B2WorldCreator;
+import com.dg.supermariobros.tools.WorldContactListener;
 
 public class PlayScreen implements Screen {
 
@@ -74,6 +75,8 @@ public class PlayScreen implements Screen {
 
         // creates Mario in the game world
         player = new Mario(world, this);
+
+        world.setContactListener(new WorldContactListener());
     }
 
     public TextureAtlas getAtlas() {
