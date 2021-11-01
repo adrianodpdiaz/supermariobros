@@ -10,6 +10,8 @@ import com.dg.supermariobros.screens.PlayScreen;
 public class SuperMarioBros extends Game {
 	public static final int V_WIDTH = 400;
 	public static final int V_HEIGHT = 208;
+	public static final float PPM = 100;
+
 	public SpriteBatch batch;
 	
 	@Override
@@ -23,10 +25,4 @@ public class SuperMarioBros extends Game {
 		super.render();
 	}
 
-	/*
-	@Override
-	public void dispose () {
-		batch.dispose();
-	}
-	 */
 }

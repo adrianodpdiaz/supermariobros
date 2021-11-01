@@ -7,6 +7,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
+import com.badlogic.gdx.utils.Disposable;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.dg.supermariobros.SuperMarioBros;
@@ -17,7 +18,8 @@ import com.dg.supermariobros.SuperMarioBros;
  * When the game world moves, we want the height to stay the same,
  * so we need to use a locked new camera and viewport for the HUD.
  * */
-public class Hud {
+public class Hud implements Disposable {
+
     public Stage stage;
     private Viewport viewport;
 
@@ -68,4 +70,8 @@ public class Hud {
     }
 
 
+    @Override
+    public void dispose() {
+        stage.dispose();
+    }
 }
