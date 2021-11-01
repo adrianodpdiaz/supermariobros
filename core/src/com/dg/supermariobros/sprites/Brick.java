@@ -6,6 +6,7 @@ import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.Null;
 import com.dg.supermariobros.SuperMarioBros;
+import com.dg.supermariobros.scenes.Hud;
 
 public class Brick extends InteractiveTileObject {
 
@@ -20,5 +21,6 @@ public class Brick extends InteractiveTileObject {
         Gdx.app.log("brick", "collision");
         setCategoryFilter(SuperMarioBros.DESTROYED_BIT);
         getCell().setTile(null);
+        Hud.addScore(200);
     }
 }
