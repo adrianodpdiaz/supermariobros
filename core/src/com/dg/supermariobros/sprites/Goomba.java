@@ -2,9 +2,11 @@ package com.dg.supermariobros.sprites;
 
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.CircleShape;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
+import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.utils.Array;
 import com.dg.supermariobros.SuperMarioBros;
 import com.dg.supermariobros.screens.PlayScreen;
@@ -38,7 +40,7 @@ public class Goomba extends Enemy {
     @Override
     protected void defineEnemy() {
         BodyDef bodyDef = new BodyDef();
-        bodyDef.position.set(32 / SuperMarioBros.PPM, 32 / SuperMarioBros.PPM);
+        bodyDef.position.set(getX(), getY());
         bodyDef.type = BodyDef.BodyType.DynamicBody;
         b2dBody = world.createBody(bodyDef);
 
@@ -55,6 +57,20 @@ public class Goomba extends Enemy {
                         | SuperMarioBros.MARIO_BIT;
 
         fixtureDef.shape = shape;
-        b2dBody.createFixture(fixtureDef);
+        b2dBody.createFixture(fixtureDef).setUserData(this);
+
+        // Creating the head
+        PolygonShape head = new PolygonShape();
+        Vector2[] vertex = new Vector2[4];
+        vertex[0] = new Vector2(-5, 8).scl(1 / SuperMarioBros.PPM);
+        vertex[1] = new Vector2(5, 8).scl(1 / SuperMarioBros.PPM);
+        vertex[2] = new Vector2(-3, 3).scl(1 / SuperMarioBros.PPM);
+        vertex[3] = new Vector2(3, 3).scl(1 / SuperMarioBros.PPM);
+        head.set(vertex);
+
+        fixtureDef.shape = head;
+        fixtureDef.restitution = 0.5f;
+        fixtureDef.filter.categoryBits = SuperMarioBros.ENEMY_HEAD_BIT;
+        b2dBody.createFixture(fixtureDef).setUserData(this);
     }
 }
