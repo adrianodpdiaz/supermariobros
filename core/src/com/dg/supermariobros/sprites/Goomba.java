@@ -1,6 +1,7 @@
 package com.dg.supermariobros.sprites;
 
 import com.badlogic.gdx.graphics.g2d.Animation;
+import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.BodyDef;
@@ -19,6 +20,9 @@ public class Goomba extends Enemy {
     private int packAdjustmentX = 226;
     private int packAdjustmentY = 11;
 
+    private boolean setToDestroy;
+    private boolean destroyed;
+
     public Goomba(PlayScreen screen, float x, float y) {
         super(screen, x, y);
         frames = new Array<TextureRegion>();
@@ -29,12 +33,23 @@ public class Goomba extends Enemy {
         walkAnimation = new Animation<TextureRegion>(0.4f, frames);
         stateTime = 0;
         setBounds(getX(), getY(), 16 / SuperMarioBros.PPM, 16 / SuperMarioBros.PPM);
+        setToDestroy = false;
+        destroyed = false;
     }
 
     public void update(float dt) {
         stateTime += dt;
-        setPosition(b2dBody.getPosition().x - getWidth() / 2, b2dBody.getPosition().y - getHeight() / 2);
-        setRegion(walkAnimation.getKeyFrame(stateTime, true));
+        if(setToDestroy && !destroyed){
+            world.destroyBody(b2dBody);
+            destroyed = true;
+            setRegion(new TextureRegion(screen.getAtlas().findRegion("mario"), 33 + packAdjustmentX, packAdjustmentY, 16, 16));
+            stateTime = 0;
+        }
+        else if(!destroyed) {
+            b2dBody.setLinearVelocity(velocity);
+            setPosition(b2dBody.getPosition().x - getWidth() / 2, b2dBody.getPosition().y - getHeight() / 2);
+            setRegion(walkAnimation.getKeyFrame(stateTime, true));
+        }
     }
 
     @Override
@@ -72,5 +87,15 @@ public class Goomba extends Enemy {
         fixtureDef.restitution = 0.5f;
         fixtureDef.filter.categoryBits = SuperMarioBros.ENEMY_HEAD_BIT;
         b2dBody.createFixture(fixtureDef).setUserData(this);
+    }
+
+    public void draw(Batch batch){
+        if(!destroyed || stateTime < 1)
+            super.draw(batch);
+    }
+
+    @Override
+    public void hitOnHead() {
+        setToDestroy = true;
     }
 }

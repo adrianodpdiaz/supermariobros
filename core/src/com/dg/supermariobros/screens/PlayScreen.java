@@ -87,7 +87,7 @@ public class PlayScreen implements Screen {
         music.setVolume(0.5f);
         music.play();
 
-        goomba = new Goomba(this, .32f, .32f);
+        goomba = new Goomba(this, 5.64f, .16f);
 
         world.setContactListener(new WorldContactListener());
     }
@@ -147,7 +147,7 @@ public class PlayScreen implements Screen {
         game.batch.setProjectionMatrix(gameCam.combined);
         game.batch.begin();
         player.draw(game.batch);
-        //goomba.draw(game.batch);
+        goomba.draw(game.batch);
         game.batch.end();
 
         // set the batch to now draw what the HUD camera sees
