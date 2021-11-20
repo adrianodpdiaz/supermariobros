@@ -18,6 +18,7 @@ import com.badlogic.gdx.utils.viewport.Viewport;
 import com.dg.supermariobros.SuperMarioBros;
 import com.dg.supermariobros.scenes.Hud;
 import com.dg.supermariobros.sounds.SoundManager;
+import com.dg.supermariobros.sprites.Enemy;
 import com.dg.supermariobros.sprites.Goomba;
 import com.dg.supermariobros.sprites.Mario;
 import com.dg.supermariobros.tools.B2WorldCreator;
@@ -40,10 +41,10 @@ public class PlayScreen implements Screen {
     // Box2d variables
     private World world;
     private Box2DDebugRenderer b2dr;
+    private B2WorldCreator creator;
 
     // Sprites
     private Mario player;
-    private Goomba goomba;
 
     private Music music;
 
@@ -77,7 +78,7 @@ public class PlayScreen implements Screen {
         // Debug Lines
         b2dr = new Box2DDebugRenderer();
 
-        new B2WorldCreator(this);
+        creator = new B2WorldCreator(this);
 
         // creates Mario in the game world
         player = new Mario(this);
@@ -86,8 +87,6 @@ public class PlayScreen implements Screen {
         music.setLooping(true);
         music.setVolume(0.5f);
         music.play();
-
-        goomba = new Goomba(this, 5.64f, .16f);
 
         world.setContactListener(new WorldContactListener());
     }
@@ -120,7 +119,9 @@ public class PlayScreen implements Screen {
         world.step(1/60f, 6, 2);
 
         player.update(dt);
-        goomba.update(dt);
+        for(Enemy enemy : creator.getGoombas()) {
+            enemy.update(dt);
+        }
         hud.update(dt);
 
         gameCam.position.x = player.b2dBody.getPosition().x;
@@ -147,7 +148,9 @@ public class PlayScreen implements Screen {
         game.batch.setProjectionMatrix(gameCam.combined);
         game.batch.begin();
         player.draw(game.batch);
-        goomba.draw(game.batch);
+        for(Enemy enemy : creator.getGoombas()) {
+            enemy.draw(game.batch);
+        }
         game.batch.end();
 
         // set the batch to now draw what the HUD camera sees
