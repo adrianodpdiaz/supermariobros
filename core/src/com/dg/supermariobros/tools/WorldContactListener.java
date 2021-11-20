@@ -7,7 +7,9 @@ import com.badlogic.gdx.physics.box2d.ContactListener;
 import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.physics.box2d.Manifold;
 import com.dg.supermariobros.SuperMarioBros;
+import com.dg.supermariobros.sprites.Mario;
 import com.dg.supermariobros.sprites.enemies.Enemy;
+import com.dg.supermariobros.sprites.items.Item;
 import com.dg.supermariobros.sprites.tileobjects.InteractiveTileObject;
 
 public class WorldContactListener implements ContactListener {
@@ -48,7 +50,18 @@ public class WorldContactListener implements ContactListener {
                 ((Enemy) fixtureA.getUserData()).reverseVelocity(true, false);
                 ((Enemy) fixtureB.getUserData()).reverseVelocity(true, false);
                 break;
-
+            case SuperMarioBros.ITEM_BIT | SuperMarioBros.OBJECT_BIT:
+                if(fixtureA.getFilterData().categoryBits == SuperMarioBros.ITEM_BIT)
+                    ((Item) fixtureA.getUserData()).reverseVelocity(true, false);
+                else
+                    ((Item) fixtureB.getUserData()).reverseVelocity(true, false);
+                break;
+            case SuperMarioBros.ITEM_BIT | SuperMarioBros.MARIO_BIT:
+                if(fixtureA.getFilterData().categoryBits == SuperMarioBros.ITEM_BIT)
+                    ((Item) fixtureA.getUserData()).use((Mario) fixtureB.getUserData());
+                else
+                    ((Item) fixtureB.getUserData()).use((Mario) fixtureA.getUserData());
+                break;
         }
     }
 
