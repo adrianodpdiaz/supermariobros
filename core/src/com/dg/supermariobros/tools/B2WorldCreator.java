@@ -12,8 +12,8 @@ import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.Array;
 import com.dg.supermariobros.SuperMarioBros;
 import com.dg.supermariobros.screens.PlayScreen;
-import com.dg.supermariobros.sprites.items.Brick;
-import com.dg.supermariobros.sprites.items.Coin;
+import com.dg.supermariobros.sprites.tileobjects.Brick;
+import com.dg.supermariobros.sprites.tileobjects.Coin;
 import com.dg.supermariobros.sprites.enemies.Goomba;
 
 public class B2WorldCreator {

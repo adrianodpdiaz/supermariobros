@@ -13,6 +13,7 @@ import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.World;
+import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.dg.supermariobros.SuperMarioBros;
@@ -20,8 +21,15 @@ import com.dg.supermariobros.scenes.Hud;
 import com.dg.supermariobros.sounds.SoundManager;
 import com.dg.supermariobros.sprites.enemies.Enemy;
 import com.dg.supermariobros.sprites.Mario;
+import com.dg.supermariobros.sprites.items.Item;
+import com.dg.supermariobros.sprites.items.ItemDef;
+import com.dg.supermariobros.sprites.items.Mushroom;
 import com.dg.supermariobros.tools.B2WorldCreator;
 import com.dg.supermariobros.tools.WorldContactListener;
+
+import java.util.PriorityQueue;
+import java.util.concurrent.LinkedBlockingDeque;
+import java.util.concurrent.LinkedBlockingQueue;
 
 public class PlayScreen implements Screen {
 
@@ -44,6 +52,8 @@ public class PlayScreen implements Screen {
 
     // Sprites
     private Mario player;
+    private Array<Item> items;
+    public LinkedBlockingQueue<ItemDef> itemsToSpawn;
 
     private Music music;
 
@@ -82,12 +92,28 @@ public class PlayScreen implements Screen {
         // creates Mario in the game world
         player = new Mario(this);
 
+        world.setContactListener(new WorldContactListener());
+
         music = new SoundManager().getAssetManager().get("audio/music/main_music.mp3", Music.class);
         music.setLooping(true);
         music.setVolume(0.5f);
         music.play();
 
-        world.setContactListener(new WorldContactListener());
+        items = new Array<Item>();
+        itemsToSpawn = new LinkedBlockingQueue<ItemDef>();
+    }
+
+    public void spawnItem(ItemDef itemDef) {
+        itemsToSpawn.add(itemDef);
+    }
+
+    public void handleSpawningItems() {
+        if(!itemsToSpawn.isEmpty()) {
+            ItemDef itemDef = itemsToSpawn.poll();
+            if(itemDef.type == Mushroom.class) {
+                items.add(new Mushroom(this, itemDef.position.x, itemDef.position.y));
+            }
+        }
     }
 
     public TextureAtlas getAtlas() {
@@ -114,6 +140,7 @@ public class PlayScreen implements Screen {
     public void update(float dt) {
         // handle user input first
         handleInput(dt);
+        handleSpawningItems();
 
         world.step(1/60f, 6, 2);
 
@@ -123,6 +150,9 @@ public class PlayScreen implements Screen {
             if(enemy.getX() < player.getX() + 224 / SuperMarioBros.PPM) {
                 enemy.b2dBody.setActive(true);
             }
+        }
+        for(Item item : items) {
+            item.update(dt);
         }
         hud.update(dt);
 
@@ -152,6 +182,9 @@ public class PlayScreen implements Screen {
         player.draw(game.batch);
         for(Enemy enemy : creator.getGoombas()) {
             enemy.draw(game.batch);
+        }
+        for(Item item : items) {
+            item.draw(game.batch);
         }
         game.batch.end();
 

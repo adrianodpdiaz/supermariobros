@@ -1,13 +1,16 @@
-package com.dg.supermariobros.sprites.items;
+package com.dg.supermariobros.sprites.tileobjects;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.maps.tiled.TiledMapTileSet;
 import com.badlogic.gdx.math.Rectangle;
+import com.badlogic.gdx.math.Vector2;
 import com.dg.supermariobros.SuperMarioBros;
 import com.dg.supermariobros.scenes.Hud;
 import com.dg.supermariobros.screens.PlayScreen;
 import com.dg.supermariobros.sounds.SoundManager;
+import com.dg.supermariobros.sprites.items.ItemDef;
+import com.dg.supermariobros.sprites.items.Mushroom;
 import com.dg.supermariobros.sprites.tileobjects.InteractiveTileObject;
 
 public class Coin extends InteractiveTileObject {
@@ -26,6 +29,11 @@ public class Coin extends InteractiveTileObject {
         Gdx.app.log("coin", "collision");
         if(getCell().getTile().getId() != BLANK_COIN) {
             new SoundManager().getAssetManager().get("audio/sounds/coin.wav", Sound.class).play();
+            screen.spawnItem(new ItemDef(
+                            new Vector2(body.getPosition().x, body.getPosition().y + 16 / SuperMarioBros.PPM),
+                            Mushroom.class
+                    )
+            );
         } else {
             new SoundManager().getAssetManager().get("audio/sounds/bump.wav", Sound.class).play();
         }

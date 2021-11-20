@@ -1,4 +1,4 @@
-package com.dg.supermariobros.sprites.items;
+package com.dg.supermariobros.sprites.tileobjects;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Sound;
