@@ -10,6 +10,7 @@ import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
 import com.dg.supermariobros.SuperMarioBros;
+import com.dg.supermariobros.screens.PlayScreen;
 import com.dg.supermariobros.sprites.Brick;
 import com.dg.supermariobros.sprites.Coin;
 
@@ -20,7 +21,10 @@ public class B2WorldCreator {
     private FixtureDef fixtureDef = new FixtureDef();
     private Body body;
 
-    public B2WorldCreator (World world, TiledMap map) {
+    public B2WorldCreator (PlayScreen screen) {
+        World world = screen.getWorld();
+        TiledMap map = screen.getMap();
+
         BodyDef bodyDef = new BodyDef();
         shape = new PolygonShape();
         fixtureDef = new FixtureDef();
@@ -60,13 +64,13 @@ public class B2WorldCreator {
         // creates brick bodies/fixtures
         for (MapObject object : map.getLayers().get(5).getObjects().getByType(RectangleMapObject.class)) {
             Rectangle rect = ((RectangleMapObject) object).getRectangle();
-            new Brick(world, map, rect);
+            new Brick(screen, rect);
         }
 
         // creates coin bodies/fixtures
         for (MapObject object : map.getLayers().get(4).getObjects().getByType(RectangleMapObject.class)) {
             Rectangle rect = ((RectangleMapObject) object).getRectangle();
-            new Coin(world, map, rect);
+            new Coin(screen, rect);
         }
     }
 }

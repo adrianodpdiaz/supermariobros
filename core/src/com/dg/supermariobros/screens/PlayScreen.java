@@ -75,10 +75,10 @@ public class PlayScreen implements Screen {
         // Debug Lines
         b2dr = new Box2DDebugRenderer();
 
-        new B2WorldCreator(world, map);
+        new B2WorldCreator(this);
 
         // creates Mario in the game world
-        player = new Mario(world, this);
+        player = new Mario(this);
 
         music = new SoundManager().getAssetManager().get("audio/music/main_music.mp3", Music.class);
         music.setLooping(true);
@@ -154,6 +154,14 @@ public class PlayScreen implements Screen {
         // When the size of the screen changes, the viewport gets adjusted to know what the actual screen size is
         gameViewport.update(width, height);
 
+    }
+
+    public TiledMap getMap() {
+        return map;
+    }
+
+    public World getWorld() {
+        return world;
     }
 
     @Override

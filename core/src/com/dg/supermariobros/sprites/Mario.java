@@ -35,9 +35,9 @@ public class Mario extends Sprite {
 
     private int packAdjustment = 514;
 
-    public Mario (World world, PlayScreen screen) {
+    public Mario (PlayScreen screen) {
         super(screen.getAtlas().findRegion("goku1"));
-        this.world = world;
+        this.world = screen.getWorld();
 
         currentState = State.STANDING;
         previousState = State.STANDING;
