@@ -3,50 +3,17 @@ goku.png
 format: RGBA8888
 filter: Nearest,Nearest
 repeat: none
+mario
+  rotate: false
+  xy: 1, 14
+  size: 512, 64
+  orig: 512, 64
+  offset: 0, 0
+  index: -1
 goku1
   rotate: false
-  xy: 1, 1
+  xy: 515, 1
   size: 153, 77
   orig: 153, 77
-  offset: 0, 0
-  index: -1
-goku2
-  rotate: false
-  xy: 156, 20
-  size: 153, 58
-  orig: 153, 58
-  offset: 0, 0
-  index: -1
-
-goku2.png
-format: RGBA8888
-filter: Nearest,Nearest
-repeat: none
-old/output-onlinepngtools (2)
-  rotate: false
-  xy: 1, 392
-  size: 1000, 250
-  orig: 1000, 250
-  offset: 0, 0
-  index: -1
-old/output-onlinepngtools (3)
-  rotate: false
-  xy: 1, 140
-  size: 1000, 250
-  orig: 1000, 250
-  offset: 0, 0
-  index: -1
-old/goku1
-  rotate: false
-  xy: 1, 61
-  size: 153, 77
-  orig: 153, 77
-  offset: 0, 0
-  index: -1
-old/goku2
-  rotate: false
-  xy: 1, 1
-  size: 153, 58
-  orig: 153, 58
   offset: 0, 0
   index: -1

@@ -33,6 +33,8 @@ public class Mario extends Sprite {
     private float stateTimer;
     private boolean runningRight;
 
+    private int packAdjustment = 514;
+
     public Mario (World world, PlayScreen screen) {
         super(screen.getAtlas().findRegion("goku1"));
         this.world = world;
@@ -44,13 +46,13 @@ public class Mario extends Sprite {
 
         Array<TextureRegion> frames = new Array<TextureRegion>();
         for(int i = 1; i < 4; i++) {
-            frames.add(new TextureRegion(getTexture(), i * 19, 0, 20, 20));
+            frames.add(new TextureRegion(getTexture(), i * 19 + packAdjustment, 0, 20, 20));
         }
         marioRun = new Animation<TextureRegion>(0.1f, frames);
         frames.clear();
 
         for(int i = 6; i < 7; i++) {
-            frames.add(new TextureRegion(getTexture(), i * 19, 0, 20, 20));
+            frames.add(new TextureRegion(getTexture(), i * 19 + packAdjustment, 0, 20, 20));
         }
         marioJump = new Animation<TextureRegion>(0.1f, frames);
 
@@ -60,7 +62,7 @@ public class Mario extends Sprite {
         setRegion(marioStand);
          */
 
-        marioStand = new TextureRegion(getTexture(), 0, 0, 20, 20);
+        marioStand = new TextureRegion(getTexture(), packAdjustment, 0, 20, 20);
         defineMario();
         setBounds(0, 0, 17/ SuperMarioBros.PPM, 17/ SuperMarioBros.PPM);
         setRegion(marioStand);
