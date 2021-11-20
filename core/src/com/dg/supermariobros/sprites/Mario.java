@@ -124,7 +124,12 @@ public class Mario extends Sprite {
         CircleShape shape = new CircleShape();
         shape.setRadius(8 / SuperMarioBros.PPM);
         fixtureDef.filter.categoryBits = SuperMarioBros.MARIO_BIT;
-        fixtureDef.filter.maskBits = SuperMarioBros.DEFAULT_BIT | SuperMarioBros.BRICK_BIT | SuperMarioBros.COIN_BIT;
+        fixtureDef.filter.maskBits =
+                SuperMarioBros.GROUND_BIT
+                        | SuperMarioBros.BRICK_BIT
+                        | SuperMarioBros.COIN_BIT
+                        | SuperMarioBros.ENEMY_BIT
+                        | SuperMarioBros.OBJECT_BIT;
 
         fixtureDef.shape = shape;
         b2dBody.createFixture(fixtureDef);

@@ -18,6 +18,7 @@ import com.badlogic.gdx.utils.viewport.Viewport;
 import com.dg.supermariobros.SuperMarioBros;
 import com.dg.supermariobros.scenes.Hud;
 import com.dg.supermariobros.sounds.SoundManager;
+import com.dg.supermariobros.sprites.Goomba;
 import com.dg.supermariobros.sprites.Mario;
 import com.dg.supermariobros.tools.B2WorldCreator;
 import com.dg.supermariobros.tools.WorldContactListener;
@@ -42,6 +43,7 @@ public class PlayScreen implements Screen {
 
     // Sprites
     private Mario player;
+    private Goomba goomba;
 
     private Music music;
 
@@ -85,6 +87,8 @@ public class PlayScreen implements Screen {
         music.setVolume(0.5f);
         music.play();
 
+        goomba = new Goomba(this, .32f, .32f);
+
         world.setContactListener(new WorldContactListener());
     }
 
@@ -116,6 +120,7 @@ public class PlayScreen implements Screen {
         world.step(1/60f, 6, 2);
 
         player.update(dt);
+        goomba.update(dt);
         hud.update(dt);
 
         gameCam.position.x = player.b2dBody.getPosition().x;
@@ -142,6 +147,7 @@ public class PlayScreen implements Screen {
         game.batch.setProjectionMatrix(gameCam.combined);
         game.batch.begin();
         player.draw(game.batch);
+        goomba.draw(game.batch);
         game.batch.end();
 
         // set the batch to now draw what the HUD camera sees
