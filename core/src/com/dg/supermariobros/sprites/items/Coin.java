@@ -1,15 +1,14 @@
-package com.dg.supermariobros.sprites;
+package com.dg.supermariobros.sprites.items;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Sound;
-import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapTileSet;
 import com.badlogic.gdx.math.Rectangle;
-import com.badlogic.gdx.physics.box2d.World;
 import com.dg.supermariobros.SuperMarioBros;
 import com.dg.supermariobros.scenes.Hud;
 import com.dg.supermariobros.screens.PlayScreen;
 import com.dg.supermariobros.sounds.SoundManager;
+import com.dg.supermariobros.sprites.tileobjects.InteractiveTileObject;
 
 public class Coin extends InteractiveTileObject {
     private static TiledMapTileSet tileSet;

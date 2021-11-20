@@ -1,4 +1,4 @@
-package com.dg.supermariobros.sprites;
+package com.dg.supermariobros.sprites.enemies;
 
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Batch;
@@ -11,6 +11,7 @@ import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.utils.Array;
 import com.dg.supermariobros.SuperMarioBros;
 import com.dg.supermariobros.screens.PlayScreen;
+import com.dg.supermariobros.sprites.enemies.Enemy;
 
 public class Goomba extends Enemy {
     private float stateTime;

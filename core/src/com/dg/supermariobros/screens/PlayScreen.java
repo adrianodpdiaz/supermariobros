@@ -18,8 +18,7 @@ import com.badlogic.gdx.utils.viewport.Viewport;
 import com.dg.supermariobros.SuperMarioBros;
 import com.dg.supermariobros.scenes.Hud;
 import com.dg.supermariobros.sounds.SoundManager;
-import com.dg.supermariobros.sprites.Enemy;
-import com.dg.supermariobros.sprites.Goomba;
+import com.dg.supermariobros.sprites.enemies.Enemy;
 import com.dg.supermariobros.sprites.Mario;
 import com.dg.supermariobros.tools.B2WorldCreator;
 import com.dg.supermariobros.tools.WorldContactListener;
@@ -121,6 +120,9 @@ public class PlayScreen implements Screen {
         player.update(dt);
         for(Enemy enemy : creator.getGoombas()) {
             enemy.update(dt);
+            if(enemy.getX() < player.getX() + 224 / SuperMarioBros.PPM) {
+                enemy.b2dBody.setActive(true);
+            }
         }
         hud.update(dt);
 

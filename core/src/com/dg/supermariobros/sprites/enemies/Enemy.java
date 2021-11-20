@@ -1,4 +1,4 @@
-package com.dg.supermariobros.sprites;
+package com.dg.supermariobros.sprites.enemies;
 
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.maps.tiled.TiledMap;
@@ -19,6 +19,8 @@ public abstract class Enemy extends Sprite {
         setPosition(x, y);
         defineEnemy();
         velocity = new Vector2(1, 0);
+
+        b2dBody.setActive(false);
     }
 
     protected abstract void defineEnemy();
