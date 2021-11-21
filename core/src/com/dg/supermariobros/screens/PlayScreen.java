@@ -196,6 +196,11 @@ public class PlayScreen implements Screen {
         // set the batch to now draw what the HUD camera sees
         game.batch.setProjectionMatrix(hud.stage.getCamera().combined);
         hud.stage.draw();
+
+        if(gameOver()) {
+            game.setScreen(new GameOverScreen(game));
+            dispose();
+        }
     }
 
     @Override
@@ -208,13 +213,18 @@ public class PlayScreen implements Screen {
     public TiledMap getMap() {
         return map;
     }
-
     public World getWorld() {
         return world;
     }
-
     public Music getMusic() {
         return music;
+    }
+
+    public boolean gameOver() {
+        if(player.currentState == Goku.State.DEAD && player.getStateTimer() > 3) {
+            return true;
+        }
+        return false;
     }
 
     @Override

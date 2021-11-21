@@ -304,4 +304,12 @@ public class Goku extends Sprite {
             b2dBody.applyLinearImpulse(new Vector2(0, 4f), b2dBody.getWorldCenter(), true);
         }
     }
+
+    public boolean isDead() {
+        return gokuIsDead;
+    }
+
+    public float getStateTimer() {
+        return stateTimer;
+    }
 }
