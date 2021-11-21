@@ -18,9 +18,10 @@ public class MainGame extends Game {
 	public static final short ENEMY_BIT = 64;
 	public static final short ENEMY_HEAD_BIT = 128;
 	public static final short ITEM_BIT = 256;
+	public static final short GOKU_HEAD_BIT = 512;
 
 	public SpriteBatch batch;
-	
+
 	@Override
 	public void create () {
 		batch = new SpriteBatch();

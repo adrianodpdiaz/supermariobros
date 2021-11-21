@@ -21,16 +21,14 @@ public class WorldContactListener implements ContactListener {
 
         int collisionDef = fixtureA.getFilterData().categoryBits | fixtureB.getFilterData().categoryBits;
 
-        if (fixtureA.getUserData() == "head" || fixtureB.getUserData() == "head") {
-            Fixture head = fixtureA.getUserData() == "head" ? fixtureA : fixtureB;
-            Fixture object = head == fixtureA ? fixtureB : fixtureA;
-
-            if (object.getUserData() != null && InteractiveTileObject.class.isAssignableFrom(
-                    object.getUserData().getClass()))
-                ((InteractiveTileObject) object.getUserData()).onHeadHit();
-        }
-
         switch (collisionDef) {
+            case MainGame.GOKU_HEAD_BIT | MainGame.BRICK_BIT:
+            case MainGame.GOKU_HEAD_BIT | MainGame.COIN_BIT:
+                if (fixtureA.getFilterData().categoryBits == MainGame.GOKU_HEAD_BIT)
+                    ((InteractiveTileObject) fixtureB.getUserData()).onHeadHit();
+                else
+                    ((InteractiveTileObject) fixtureA.getUserData()).onHeadHit();
+                break;
             case MainGame.ENEMY_HEAD_BIT | MainGame.GOKU_BIT:
                 if (fixtureA.getFilterData().categoryBits == MainGame.ENEMY_HEAD_BIT)
                     ((Enemy) fixtureA.getUserData()).hitOnHead();
@@ -44,7 +42,7 @@ public class WorldContactListener implements ContactListener {
                     ((Enemy) fixtureB.getUserData()).reverseVelocity(true, false);
                 break;
             case MainGame.GOKU_BIT | MainGame.ENEMY_BIT:
-                Gdx.app.log("mario", "died");
+                Gdx.app.log("goku", "died");
                 break;
             case MainGame.ENEMY_BIT | MainGame.ENEMY_BIT:
                 ((Enemy) fixtureA.getUserData()).reverseVelocity(true, false);

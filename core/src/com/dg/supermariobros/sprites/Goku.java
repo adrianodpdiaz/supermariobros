@@ -167,8 +167,10 @@ public class Goku extends Sprite {
         EdgeShape head = new EdgeShape();
         head.set(new Vector2(-2 / MainGame.PPM, 7 / MainGame.PPM),
                 new Vector2(2 / MainGame.PPM, 7 / MainGame.PPM));
+        fixtureDef.filter.categoryBits = MainGame.GOKU_HEAD_BIT;
         fixtureDef.shape = head;
         fixtureDef.isSensor = true;
-        b2dBody.createFixture(fixtureDef).setUserData("head");
+
+        b2dBody.createFixture(fixtureDef).setUserData(this);
     }
 }
