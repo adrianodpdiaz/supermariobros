@@ -3,6 +3,7 @@ package com.dg.supermariobros.sprites.tileobjects;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.maps.MapObject;
+import com.badlogic.gdx.math.Vector2;
 import com.dg.supermariobros.MainGame;
 import com.dg.supermariobros.scenes.Hud;
 import com.dg.supermariobros.screens.PlayScreen;

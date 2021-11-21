@@ -125,16 +125,18 @@ public class PlayScreen implements Screen {
     }
 
     public void handleInput(float dt) {
-        // if the user is holding down mouse move the camera through the game world
-        if(Gdx.input.isKeyJustPressed(Input.Keys.UP)) {
-            player.b2dBody.applyLinearImpulse(
-                    new Vector2(0, 4f), player.b2dBody.getWorldCenter(), true);
-        }
+        if(player.currentState != Goku.State.DEAD) {
+            // if the user is holding down mouse move the camera through the game world
+            if(Gdx.input.isKeyJustPressed(Input.Keys.UP)) {
+                player.b2dBody.applyLinearImpulse(
+                        new Vector2(0, 4f), player.b2dBody.getWorldCenter(), true);
+            }
 
-        if(Gdx.input.isKeyPressed(Input.Keys.RIGHT) && player.b2dBody.getLinearVelocity().x <= 2)
-            player.b2dBody.applyLinearImpulse(new Vector2(0.1f, 0), player.b2dBody.getWorldCenter(), true);
-        if(Gdx.input.isKeyPressed(Input.Keys.LEFT) && player.b2dBody.getLinearVelocity().x >= -2)
-            player.b2dBody.applyLinearImpulse(new Vector2(-0.1f, 0), player.b2dBody.getWorldCenter(), true);
+            if(Gdx.input.isKeyPressed(Input.Keys.RIGHT) && player.b2dBody.getLinearVelocity().x <= 2)
+                player.b2dBody.applyLinearImpulse(new Vector2(0.1f, 0), player.b2dBody.getWorldCenter(), true);
+            if(Gdx.input.isKeyPressed(Input.Keys.LEFT) && player.b2dBody.getLinearVelocity().x >= -2)
+                player.b2dBody.applyLinearImpulse(new Vector2(-0.1f, 0), player.b2dBody.getWorldCenter(), true);
+        }
 
     }
 
@@ -157,7 +159,9 @@ public class PlayScreen implements Screen {
         }
         hud.update(dt);
 
-        gameCam.position.x = player.b2dBody.getPosition().x;
+        if(player.currentState != Goku.State.DEAD) {
+            gameCam.position.x = player.b2dBody.getPosition().x;
+        }
 
         gameCam.update();
         // tells the renderer to draw only what the camera can see
@@ -209,20 +213,16 @@ public class PlayScreen implements Screen {
         return world;
     }
 
-    @Override
-    public void pause() {
-
+    public Music getMusic() {
+        return music;
     }
 
     @Override
-    public void resume() {
-
-    }
-
+    public void pause() { }
     @Override
-    public void hide() {
-
-    }
+    public void resume() { }
+    @Override
+    public void hide() { }
 
     @Override
     public void dispose() {

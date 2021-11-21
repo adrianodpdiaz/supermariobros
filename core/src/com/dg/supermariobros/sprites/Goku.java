@@ -1,5 +1,6 @@
 package com.dg.supermariobros.sprites;
 
+import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
@@ -9,6 +10,8 @@ import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.CircleShape;
 import com.badlogic.gdx.physics.box2d.EdgeShape;
+import com.badlogic.gdx.physics.box2d.Filter;
+import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.Array;
@@ -23,17 +26,20 @@ public class Goku extends Sprite {
         JUMPING,
         STANDING,
         RUNNING,
-        GROWING
+        GROWING,
+        DEAD
     }
     public State currentState;
     public State previousState;
 
     public World world;
+    public PlayScreen screen;
     public Body b2dBody;
     private TextureRegion gokuStand;
+    private TextureRegion gokuDead;
 
     private Animation<TextureRegion> gokuRun;
-    private Animation<TextureRegion> gokuJump;
+    private TextureRegion gokuJump;
     private float stateTimer;
     private boolean runningRight;
 
@@ -41,14 +47,17 @@ public class Goku extends Sprite {
     private TextureRegion bigGokuJump;
     private TextureRegion bigGokuRun;
     private Animation<TextureRegion> growGoku;
+
     private boolean isBig;
     private boolean runGrowAnimation;
     private boolean timeToDefineBigGoku;
     private boolean timeToRedefineGoku;
+    private boolean gokuIsDead;
 
     public Goku(PlayScreen screen) {
 
         this.world = screen.getWorld();
+        this.screen = screen;
 
         currentState = State.STANDING;
         previousState = State.STANDING;
@@ -65,12 +74,12 @@ public class Goku extends Sprite {
         bigGokuRun = new TextureRegion(screen.getAtlas().findRegion("big"), 383, 330, 33, 69);
 
         // Jump Animations
-        for(int i = 6; i < 7; i++) {
-            frames.add(new TextureRegion(screen.getAtlas().findRegion("goku1"), i * 19, 0, 19, 19));
-        }
-        gokuJump = new Animation<TextureRegion>(0.1f, frames);
-        frames.clear();
+        gokuJump = new TextureRegion(screen.getAtlas().findRegion("goku1"), 19, 0, 19, 19);
         bigGokuJump = new TextureRegion(screen.getAtlas().findRegion("big"), 94, 77, 33, 58);
+
+        // Dead Texture Region
+        //850 - 793, 418 - 395
+        gokuDead = new TextureRegion(screen.getAtlas().findRegion("goku1"), 57, 23, 19, 19);
 
         // Growing Animation
         frames.add(new TextureRegion(screen.getAtlas().findRegion("big"), 9, 257, 30, 60));
@@ -181,13 +190,16 @@ public class Goku extends Sprite {
 
         TextureRegion region;
         switch (currentState) {
+            case DEAD:
+                region = gokuDead;
+                break;
             case GROWING:
                 region = growGoku.getKeyFrame(stateTimer);
                 if(growGoku.isAnimationFinished(stateTimer))
                     runGrowAnimation = false;
                 break;
             case JUMPING:
-                region = isBig ? bigGokuJump : gokuJump.getKeyFrame(stateTimer);
+                region = isBig ? bigGokuJump : gokuJump;
                 break;
             case RUNNING:
                 region = isBig ? bigGokuRun : gokuRun.getKeyFrame(stateTimer, true);
@@ -212,7 +224,9 @@ public class Goku extends Sprite {
     }
 
     public State getState() {
-        if(runGrowAnimation)
+        if(gokuIsDead)
+            return State.DEAD;
+        else if(runGrowAnimation)
             return State.GROWING;
         else if (b2dBody.getLinearVelocity().y > 0 || (b2dBody.getLinearVelocity().y < 0
                 && previousState == State.JUMPING))
@@ -279,7 +293,15 @@ public class Goku extends Sprite {
             setBounds(getX(), getY(), getWidth(), getHeight() / 2);
             new SoundManager().getAssetManager().get("audio/sounds/powerdown.wav", Sound.class).play();
         } else {
+            screen.getMusic().stop();
             new SoundManager().getAssetManager().get("audio/sounds/die.wav", Sound.class).play();
+
+            gokuIsDead = true;
+            Filter filter = new Filter();
+            filter.maskBits = MainGame.NOTHING_BIT;
+            for(Fixture fixture : b2dBody.getFixtureList())
+                fixture.setFilterData(filter);
+            b2dBody.applyLinearImpulse(new Vector2(0, 4f), b2dBody.getWorldCenter(), true);
         }
     }
 }
