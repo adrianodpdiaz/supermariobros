@@ -25,9 +25,9 @@ public class WorldContactListener implements ContactListener {
             case MainGame.GOKU_HEAD_BIT | MainGame.BRICK_BIT:
             case MainGame.GOKU_HEAD_BIT | MainGame.COIN_BIT:
                 if (fixtureA.getFilterData().categoryBits == MainGame.GOKU_HEAD_BIT)
-                    ((InteractiveTileObject) fixtureB.getUserData()).onHeadHit();
+                    ((InteractiveTileObject) fixtureB.getUserData()).onHeadHit((Goku) fixtureA.getUserData());
                 else
-                    ((InteractiveTileObject) fixtureA.getUserData()).onHeadHit();
+                    ((InteractiveTileObject) fixtureA.getUserData()).onHeadHit((Goku) fixtureB.getUserData());
                 break;
             case MainGame.ENEMY_HEAD_BIT | MainGame.GOKU_BIT:
                 if (fixtureA.getFilterData().categoryBits == MainGame.ENEMY_HEAD_BIT)

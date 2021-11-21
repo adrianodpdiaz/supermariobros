@@ -42,6 +42,7 @@ public class Goku extends Sprite {
     private Animation<TextureRegion> growGoku;
     private boolean isBig;
     private boolean runGrowAnimation;
+    private boolean timeToDefineBigGoku;
 
     public Goku(PlayScreen screen) {
 
@@ -82,9 +83,56 @@ public class Goku extends Sprite {
         setRegion(gokuStand);
     }
 
+    private void defineBigGoku() {
+        Vector2 currentPosition = b2dBody.getPosition();
+        world.destroyBody(b2dBody);
+
+        BodyDef bodyDef = new BodyDef();
+        bodyDef.position.set(currentPosition.add(0, 6.5f / MainGame.PPM));
+        bodyDef.type = BodyDef.BodyType.DynamicBody;
+        b2dBody = world.createBody(bodyDef);
+
+        FixtureDef fixtureDef = new FixtureDef();
+        CircleShape shape = new CircleShape();
+        shape.setRadius(7 / MainGame.PPM);
+        fixtureDef.filter.categoryBits = MainGame.GOKU_BIT;
+        fixtureDef.filter.maskBits =
+                MainGame.GROUND_BIT
+                        | MainGame.BRICK_BIT
+                        | MainGame.COIN_BIT
+                        | MainGame.ENEMY_BIT
+                        | MainGame.OBJECT_BIT
+                        | MainGame.ENEMY_HEAD_BIT
+                        | MainGame.ITEM_BIT;
+
+        fixtureDef.shape = shape;
+        b2dBody.createFixture(fixtureDef).setUserData(this);
+        shape.setPosition(new Vector2(0, -14 / MainGame.PPM));
+        b2dBody.createFixture(fixtureDef).setUserData(this);
+
+        EdgeShape head = new EdgeShape();
+        head.set(new Vector2(-2 / MainGame.PPM, 7 / MainGame.PPM),
+                new Vector2(2 / MainGame.PPM, 7 / MainGame.PPM));
+        fixtureDef.filter.categoryBits = MainGame.GOKU_HEAD_BIT;
+        fixtureDef.shape = head;
+        fixtureDef.isSensor = true;
+
+        b2dBody.createFixture(fixtureDef).setUserData(this);
+        timeToDefineBigGoku = false;
+    }
+
     public void update(float dt) {
-        setPosition(b2dBody.getPosition().x - getWidth() /2, b2dBody.getPosition().y - getHeight() /2);
+        if(isBig)
+            setPosition(b2dBody.getPosition().x - getWidth() /2,
+                    b2dBody.getPosition().y - getHeight() / 2 - 9 / MainGame.PPM);
+        else
+            setPosition(b2dBody.getPosition().x - getWidth() / 2, b2dBody.getPosition().y - getHeight() /2);
+
         setRegion(getFrame(dt));
+
+        if(timeToDefineBigGoku) {
+            defineBigGoku();
+        }
     }
 
     public TextureRegion getFrame(float dt) {
@@ -138,6 +186,7 @@ public class Goku extends Sprite {
     public void grow() {
         runGrowAnimation = true;
         isBig = true;
+        timeToDefineBigGoku = true;
         setBounds(getX(), getY(), getWidth(), getHeight() * 2);
         new SoundManager().getAssetManager().get("audio/sounds/powerup.wav", Sound.class).play();
     }
@@ -172,5 +221,9 @@ public class Goku extends Sprite {
         fixtureDef.isSensor = true;
 
         b2dBody.createFixture(fixtureDef).setUserData(this);
+    }
+
+    public boolean isBig() {
+        return isBig;
     }
 }

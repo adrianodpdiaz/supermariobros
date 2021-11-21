@@ -15,6 +15,7 @@ import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
 import com.dg.supermariobros.MainGame;
 import com.dg.supermariobros.screens.PlayScreen;
+import com.dg.supermariobros.sprites.Goku;
 
 public abstract class InteractiveTileObject {
 
@@ -51,7 +52,7 @@ public abstract class InteractiveTileObject {
         fixture = body.createFixture(fixtureDef);
     }
 
-    public abstract void onHeadHit();
+    public abstract void onHeadHit(Goku goku);
 
     public void setCategoryFilter(short filterBit) {
         Filter filter = new Filter();

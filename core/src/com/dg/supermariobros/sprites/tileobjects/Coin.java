@@ -9,6 +9,7 @@ import com.dg.supermariobros.MainGame;
 import com.dg.supermariobros.scenes.Hud;
 import com.dg.supermariobros.screens.PlayScreen;
 import com.dg.supermariobros.sounds.SoundManager;
+import com.dg.supermariobros.sprites.Goku;
 import com.dg.supermariobros.sprites.items.ItemDef;
 import com.dg.supermariobros.sprites.items.Mushroom;
 
@@ -24,8 +25,7 @@ public class Coin extends InteractiveTileObject {
     }
 
     @Override
-    public void onHeadHit() {
-        Gdx.app.log("coin", "collision");
+    public void onHeadHit(Goku goku) {
         if(getCell().getTile().getId() != BLANK_COIN) {
             if(object.getProperties().containsKey("mushroom")) {
                 screen.spawnItem(new ItemDef(
