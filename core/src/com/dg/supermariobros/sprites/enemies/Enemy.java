@@ -19,9 +19,10 @@ public abstract class Enemy extends Sprite {
         this.screen = screen;
         setPosition(x, y);
         defineEnemy();
-        velocity = new Vector2(1, 0);
+        velocity = new Vector2(-1.2f, 0);
 
         b2dBody.setActive(false);
+        b2dBody.setGravityScale(15);
     }
 
     protected abstract void defineEnemy();

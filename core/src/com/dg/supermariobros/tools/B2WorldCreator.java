@@ -45,6 +45,7 @@ public class B2WorldCreator {
                     (rect.getWidth() / 2)  / MainGame.PPM,
                     (rect.getHeight() / 2) / MainGame.PPM);
             fixtureDef.shape = shape;
+            fixtureDef.filter.categoryBits = MainGame.GROUND_BIT;
             body.createFixture(fixtureDef);
         }
 
@@ -88,11 +89,25 @@ public class B2WorldCreator {
             Rectangle rect = ((RectangleMapObject) object).getRectangle();
             turtles.add(new Turtle(screen, rect.getX() / MainGame.PPM, rect.getY() / MainGame.PPM));
         }
+
+        // creates holes bodies/fixtures
+        for (MapObject object : map.getLayers().get(8).getObjects().getByType(RectangleMapObject.class)) {
+            Rectangle rect = ((RectangleMapObject) object).getRectangle();
+            bodyDef.type = BodyDef.BodyType.StaticBody;
+            bodyDef.position.set(
+                    (rect.getX() + rect.getWidth() / 2) / MainGame.PPM,
+                    (rect.getY() + rect.getHeight() /2) / MainGame.PPM);
+            body = world.createBody(bodyDef);
+
+            shape.setAsBox(
+                    (rect.getWidth() / 2)  / MainGame.PPM,
+                    (rect.getHeight() / 2) / MainGame.PPM);
+            fixtureDef.shape = shape;
+            fixtureDef.filter.categoryBits = MainGame.HOLE_BIT;
+            body.createFixture(fixtureDef);
+        }
     }
 
-    public Array<Goomba> getGoombas() {
-        return goombas;
-    }
     public Array<Enemy> getEnemies() {
         Array<Enemy> enemies = new Array<Enemy>();
         enemies.addAll(goombas);

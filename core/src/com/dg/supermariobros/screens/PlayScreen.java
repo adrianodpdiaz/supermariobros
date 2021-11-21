@@ -126,10 +126,11 @@ public class PlayScreen implements Screen {
 
     public void handleInput(float dt) {
         if(player.currentState != Goku.State.DEAD) {
-            // if the user is holding down mouse move the camera through the game world
-            if(Gdx.input.isKeyJustPressed(Input.Keys.UP)) {
-                player.b2dBody.applyLinearImpulse(
-                        new Vector2(0, 4f), player.b2dBody.getWorldCenter(), true);
+            if(player.b2dBody.getLinearVelocity().y == 0) {
+                if(Gdx.input.isKeyJustPressed(Input.Keys.UP)) {
+                    player.b2dBody.applyLinearImpulse(
+                            new Vector2(0, 4f), player.b2dBody.getWorldCenter(), true);
+                }
             }
 
             if(Gdx.input.isKeyPressed(Input.Keys.RIGHT) && player.b2dBody.getLinearVelocity().x <= 2)

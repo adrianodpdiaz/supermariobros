@@ -42,6 +42,7 @@ public class WorldContactListener implements ContactListener {
                     ((Enemy) fixtureB.getUserData()).reverseVelocity(true, false);
                 break;
             case MainGame.GOKU_BIT | MainGame.ENEMY_BIT:
+            case MainGame.GOKU_BIT | MainGame.HOLE_BIT:
                 if (fixtureA.getFilterData().categoryBits == MainGame.GOKU_BIT)
                     ((Goku) fixtureA.getUserData()).hit((Enemy) fixtureB.getUserData());
                 else

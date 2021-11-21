@@ -20,6 +20,7 @@ public class MainGame extends Game {
 	public static final short ENEMY_HEAD_BIT = 128;
 	public static final short ITEM_BIT = 256;
 	public static final short GOKU_HEAD_BIT = 512;
+	public static final short HOLE_BIT = 1024;
 
 	public SpriteBatch batch;
 
