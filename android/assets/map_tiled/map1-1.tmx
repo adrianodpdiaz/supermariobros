@@ -57,11 +57,23 @@
  <objectgroup id="5" name="coins">
   <object id="14" x="256" y="112" width="16" height="16"/>
   <object id="16" x="352" y="48" width="16" height="16"/>
-  <object id="17" x="336" y="112" width="16" height="16"/>
+  <object id="17" x="336" y="112" width="16" height="16">
+   <properties>
+    <property name="mushroom" value=""/>
+   </properties>
+  </object>
   <object id="18" x="368" y="112" width="16" height="16"/>
-  <object id="32" x="1248" y="112" width="16" height="16"/>
+  <object id="32" x="1248" y="112" width="16" height="16">
+   <properties>
+    <property name="mushroom" value=""/>
+   </properties>
+  </object>
   <object id="37" x="1696" y="112" width="16" height="16"/>
-  <object id="38" x="1744" y="48" width="16" height="16"/>
+  <object id="38" x="1744" y="48" width="16" height="16">
+   <properties>
+    <property name="mushroom" value=""/>
+   </properties>
+  </object>
   <object id="39" x="1744" y="112" width="16" height="16"/>
   <object id="40" x="1792" y="112" width="16" height="16"/>
   <object id="50" x="2064" y="48" width="16" height="16"/>
