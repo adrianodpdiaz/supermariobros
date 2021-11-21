@@ -31,9 +31,9 @@ public class WorldContactListener implements ContactListener {
                 break;
             case MainGame.ENEMY_HEAD_BIT | MainGame.GOKU_BIT:
                 if (fixtureA.getFilterData().categoryBits == MainGame.ENEMY_HEAD_BIT)
-                    ((Enemy) fixtureA.getUserData()).hitOnHead();
+                    ((Enemy) fixtureA.getUserData()).hitOnHead((Goku) fixtureB.getUserData());
                 else
-                    ((Enemy) fixtureB.getUserData()).hitOnHead();
+                    ((Enemy) fixtureB.getUserData()).hitOnHead((Goku) fixtureA.getUserData());
                 break;
             case MainGame.ENEMY_BIT | MainGame.OBJECT_BIT:
                 if(fixtureA.getFilterData().categoryBits == MainGame.ENEMY_BIT)
@@ -43,9 +43,9 @@ public class WorldContactListener implements ContactListener {
                 break;
             case MainGame.GOKU_BIT | MainGame.ENEMY_BIT:
                 if (fixtureA.getFilterData().categoryBits == MainGame.GOKU_BIT)
-                    ((Goku) fixtureA.getUserData()).hit();
+                    ((Goku) fixtureA.getUserData()).hit((Enemy) fixtureB.getUserData());
                 else
-                    ((Goku) fixtureB.getUserData()).hit();
+                    ((Goku) fixtureB.getUserData()).hit((Enemy) fixtureA.getUserData());
                 break;
             case MainGame.ENEMY_BIT | MainGame.ENEMY_BIT:
                 ((Enemy) fixtureA.getUserData()).reverseVelocity(true, false);

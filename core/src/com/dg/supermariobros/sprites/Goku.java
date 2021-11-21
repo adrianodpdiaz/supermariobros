@@ -19,6 +19,8 @@ import com.dg.supermariobros.MainGame;
 import com.dg.supermariobros.scenes.Hud;
 import com.dg.supermariobros.screens.PlayScreen;
 import com.dg.supermariobros.sounds.SoundManager;
+import com.dg.supermariobros.sprites.enemies.Enemy;
+import com.dg.supermariobros.sprites.enemies.Turtle;
 
 public class Goku extends Sprite {
     public enum State {
@@ -286,22 +288,26 @@ public class Goku extends Sprite {
         return isBig;
     }
 
-    public void hit() {
-        if(isBig) {
-            isBig = false;
-            timeToRedefineGoku = true;
-            setBounds(getX(), getY(), getWidth(), getHeight() / 2);
-            new SoundManager().getAssetManager().get("audio/sounds/powerdown.wav", Sound.class).play();
+    public void hit(Enemy enemy) {
+        if(enemy instanceof Turtle && ((Turtle) enemy).getCurrentState() == Turtle.State.STANDING_SHELL) {
+            ((Turtle) enemy).kick(this.getX() <= enemy.getX() ? Turtle.KICK_RIGHT : Turtle.KICK_LEFT);
         } else {
-            screen.getMusic().stop();
-            new SoundManager().getAssetManager().get("audio/sounds/die.wav", Sound.class).play();
+            if(isBig) {
+                isBig = false;
+                timeToRedefineGoku = true;
+                setBounds(getX(), getY(), getWidth(), getHeight() / 2);
+                new SoundManager().getAssetManager().get("audio/sounds/powerdown.wav", Sound.class).play();
+            } else {
+                screen.getMusic().stop();
+                new SoundManager().getAssetManager().get("audio/sounds/die.wav", Sound.class).play();
 
-            gokuIsDead = true;
-            Filter filter = new Filter();
-            filter.maskBits = MainGame.NOTHING_BIT;
-            for(Fixture fixture : b2dBody.getFixtureList())
-                fixture.setFilterData(filter);
-            b2dBody.applyLinearImpulse(new Vector2(0, 4f), b2dBody.getWorldCenter(), true);
+                gokuIsDead = true;
+                Filter filter = new Filter();
+                filter.maskBits = MainGame.NOTHING_BIT;
+                for(Fixture fixture : b2dBody.getFixtureList())
+                    fixture.setFilterData(filter);
+                b2dBody.applyLinearImpulse(new Vector2(0, 4f), b2dBody.getWorldCenter(), true);
+            }
         }
     }
 

@@ -13,6 +13,7 @@ import com.badlogic.gdx.utils.Array;
 import com.dg.supermariobros.MainGame;
 import com.dg.supermariobros.screens.PlayScreen;
 import com.dg.supermariobros.sounds.SoundManager;
+import com.dg.supermariobros.sprites.Goku;
 
 public class Goomba extends Enemy {
     private float stateTime;
@@ -98,7 +99,7 @@ public class Goomba extends Enemy {
     }
 
     @Override
-    public void hitOnHead() {
+    public void hitOnHead(Goku goku) {
         setToDestroy = true;
         new SoundManager().getAssetManager().get("audio/sounds/stomp.wav", Sound.class).play();
     }
