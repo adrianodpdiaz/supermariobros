@@ -10,7 +10,7 @@ import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.Array;
-import com.dg.supermariobros.SuperMarioBros;
+import com.dg.supermariobros.MainGame;
 import com.dg.supermariobros.screens.PlayScreen;
 import com.dg.supermariobros.sprites.tileobjects.Brick;
 import com.dg.supermariobros.sprites.tileobjects.Coin;
@@ -34,13 +34,13 @@ public class B2WorldCreator {
             Rectangle rect = ((RectangleMapObject) object).getRectangle();
             bodyDef.type = BodyDef.BodyType.StaticBody;
             bodyDef.position.set(
-                    (rect.getX() + rect.getWidth() / 2) / SuperMarioBros.PPM,
-                    (rect.getY() + rect.getHeight() /2) / SuperMarioBros.PPM);
+                    (rect.getX() + rect.getWidth() / 2) / MainGame.PPM,
+                    (rect.getY() + rect.getHeight() /2) / MainGame.PPM);
             body = world.createBody(bodyDef);
 
             shape.setAsBox(
-                    (rect.getWidth() / 2)  / SuperMarioBros.PPM,
-                    (rect.getHeight() / 2) / SuperMarioBros.PPM);
+                    (rect.getWidth() / 2)  / MainGame.PPM,
+                    (rect.getHeight() / 2) / MainGame.PPM);
             fixtureDef.shape = shape;
             body.createFixture(fixtureDef);
         }
@@ -50,15 +50,15 @@ public class B2WorldCreator {
             Rectangle rect = ((RectangleMapObject) object).getRectangle();
             bodyDef.type = BodyDef.BodyType.StaticBody;
             bodyDef.position.set(
-                    (rect.getX() + rect.getWidth() / 2) / SuperMarioBros.PPM,
-                    (rect.getY() + rect.getHeight() /2) / SuperMarioBros.PPM);
+                    (rect.getX() + rect.getWidth() / 2) / MainGame.PPM,
+                    (rect.getY() + rect.getHeight() /2) / MainGame.PPM);
             body = world.createBody(bodyDef);
 
             shape.setAsBox(
-                    (rect.getWidth() / 2)  / SuperMarioBros.PPM,
-                    (rect.getHeight() / 2) / SuperMarioBros.PPM);
+                    (rect.getWidth() / 2)  / MainGame.PPM,
+                    (rect.getHeight() / 2) / MainGame.PPM);
             fixtureDef.shape = shape;
-            fixtureDef.filter.categoryBits = SuperMarioBros.OBJECT_BIT;
+            fixtureDef.filter.categoryBits = MainGame.OBJECT_BIT;
             body.createFixture(fixtureDef);
         }
 
@@ -76,7 +76,7 @@ public class B2WorldCreator {
         goombas = new Array<Goomba>();
         for (MapObject object : map.getLayers().get(6).getObjects().getByType(RectangleMapObject.class)) {
             Rectangle rect = ((RectangleMapObject) object).getRectangle();
-            goombas.add(new Goomba(screen, rect.getX() /SuperMarioBros.PPM, rect.getY() /SuperMarioBros.PPM));
+            goombas.add(new Goomba(screen, rect.getX() / MainGame.PPM, rect.getY() / MainGame.PPM));
         }
     }
 

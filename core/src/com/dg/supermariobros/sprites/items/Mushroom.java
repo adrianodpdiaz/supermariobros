@@ -4,9 +4,9 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.CircleShape;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
-import com.dg.supermariobros.SuperMarioBros;
+import com.dg.supermariobros.MainGame;
 import com.dg.supermariobros.screens.PlayScreen;
-import com.dg.supermariobros.sprites.Mario;
+import com.dg.supermariobros.sprites.Goku;
 
 public class Mushroom extends Item {
 
@@ -28,21 +28,21 @@ public class Mushroom extends Item {
 
         FixtureDef fixtureDef = new FixtureDef();
         CircleShape shape = new CircleShape();
-        shape.setRadius(6 / SuperMarioBros.PPM);
+        shape.setRadius(6 / MainGame.PPM);
 
-        fixtureDef.filter.categoryBits = SuperMarioBros.ITEM_BIT;
-        fixtureDef.filter.maskBits = SuperMarioBros.MARIO_BIT |
-                SuperMarioBros.OBJECT_BIT |
-                SuperMarioBros.GROUND_BIT |
-                SuperMarioBros.COIN_BIT |
-                SuperMarioBros.BRICK_BIT;
+        fixtureDef.filter.categoryBits = MainGame.ITEM_BIT;
+        fixtureDef.filter.maskBits = MainGame.GOKU_BIT |
+                MainGame.OBJECT_BIT |
+                MainGame.GROUND_BIT |
+                MainGame.COIN_BIT |
+                MainGame.BRICK_BIT;
 
         fixtureDef.shape = shape;
         body.createFixture(fixtureDef).setUserData(this);
     }
 
     @Override
-    public void use(Mario mario) {
+    public void use(Goku mario) {
         destroy();
         mario.grow();
     }

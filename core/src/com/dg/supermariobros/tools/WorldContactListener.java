@@ -6,8 +6,8 @@ import com.badlogic.gdx.physics.box2d.ContactImpulse;
 import com.badlogic.gdx.physics.box2d.ContactListener;
 import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.physics.box2d.Manifold;
-import com.dg.supermariobros.SuperMarioBros;
-import com.dg.supermariobros.sprites.Mario;
+import com.dg.supermariobros.MainGame;
+import com.dg.supermariobros.sprites.Goku;
 import com.dg.supermariobros.sprites.enemies.Enemy;
 import com.dg.supermariobros.sprites.items.Item;
 import com.dg.supermariobros.sprites.tileobjects.InteractiveTileObject;
@@ -31,36 +31,36 @@ public class WorldContactListener implements ContactListener {
         }
 
         switch (collisionDef) {
-            case SuperMarioBros.ENEMY_HEAD_BIT | SuperMarioBros.MARIO_BIT:
-                if (fixtureA.getFilterData().categoryBits == SuperMarioBros.ENEMY_HEAD_BIT)
+            case MainGame.ENEMY_HEAD_BIT | MainGame.GOKU_BIT:
+                if (fixtureA.getFilterData().categoryBits == MainGame.ENEMY_HEAD_BIT)
                     ((Enemy) fixtureA.getUserData()).hitOnHead();
                 else
                     ((Enemy) fixtureB.getUserData()).hitOnHead();
                 break;
-            case SuperMarioBros.ENEMY_BIT | SuperMarioBros.OBJECT_BIT:
-                if(fixtureA.getFilterData().categoryBits == SuperMarioBros.ENEMY_BIT)
+            case MainGame.ENEMY_BIT | MainGame.OBJECT_BIT:
+                if(fixtureA.getFilterData().categoryBits == MainGame.ENEMY_BIT)
                     ((Enemy) fixtureA.getUserData()).reverseVelocity(true, false);
                 else
                     ((Enemy) fixtureB.getUserData()).reverseVelocity(true, false);
                 break;
-            case SuperMarioBros.MARIO_BIT | SuperMarioBros.ENEMY_BIT:
+            case MainGame.GOKU_BIT | MainGame.ENEMY_BIT:
                 Gdx.app.log("mario", "died");
                 break;
-            case SuperMarioBros.ENEMY_BIT | SuperMarioBros.ENEMY_BIT:
+            case MainGame.ENEMY_BIT | MainGame.ENEMY_BIT:
                 ((Enemy) fixtureA.getUserData()).reverseVelocity(true, false);
                 ((Enemy) fixtureB.getUserData()).reverseVelocity(true, false);
                 break;
-            case SuperMarioBros.ITEM_BIT | SuperMarioBros.OBJECT_BIT:
-                if(fixtureA.getFilterData().categoryBits == SuperMarioBros.ITEM_BIT)
+            case MainGame.ITEM_BIT | MainGame.OBJECT_BIT:
+                if(fixtureA.getFilterData().categoryBits == MainGame.ITEM_BIT)
                     ((Item) fixtureA.getUserData()).reverseVelocity(true, false);
                 else
                     ((Item) fixtureB.getUserData()).reverseVelocity(true, false);
                 break;
-            case SuperMarioBros.ITEM_BIT | SuperMarioBros.MARIO_BIT:
-                if(fixtureA.getFilterData().categoryBits == SuperMarioBros.ITEM_BIT)
-                    ((Item) fixtureA.getUserData()).use((Mario) fixtureB.getUserData());
+            case MainGame.ITEM_BIT | MainGame.GOKU_BIT:
+                if(fixtureA.getFilterData().categoryBits == MainGame.ITEM_BIT)
+                    ((Item) fixtureA.getUserData()).use((Goku) fixtureB.getUserData());
                 else
-                    ((Item) fixtureB.getUserData()).use((Mario) fixtureA.getUserData());
+                    ((Item) fixtureB.getUserData()).use((Goku) fixtureA.getUserData());
                 break;
         }
     }

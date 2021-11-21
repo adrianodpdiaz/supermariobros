@@ -16,24 +16,22 @@ import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
-import com.dg.supermariobros.SuperMarioBros;
+import com.dg.supermariobros.MainGame;
 import com.dg.supermariobros.scenes.Hud;
 import com.dg.supermariobros.sounds.SoundManager;
 import com.dg.supermariobros.sprites.enemies.Enemy;
-import com.dg.supermariobros.sprites.Mario;
+import com.dg.supermariobros.sprites.Goku;
 import com.dg.supermariobros.sprites.items.Item;
 import com.dg.supermariobros.sprites.items.ItemDef;
 import com.dg.supermariobros.sprites.items.Mushroom;
 import com.dg.supermariobros.tools.B2WorldCreator;
 import com.dg.supermariobros.tools.WorldContactListener;
 
-import java.util.PriorityQueue;
-import java.util.concurrent.LinkedBlockingDeque;
 import java.util.concurrent.LinkedBlockingQueue;
 
 public class PlayScreen implements Screen {
 
-    private SuperMarioBros game;
+    private MainGame game;
     private TextureAtlas atlas;
 
     private OrthographicCamera gameCam;
@@ -51,13 +49,13 @@ public class PlayScreen implements Screen {
     private B2WorldCreator creator;
 
     // Sprites
-    private Mario player;
+    private Goku player;
     private Array<Item> items;
     public LinkedBlockingQueue<ItemDef> itemsToSpawn;
 
     private Music music;
 
-    public PlayScreen(SuperMarioBros game) {
+    public PlayScreen(MainGame game) {
         atlas = new TextureAtlas("goku.pack");
         this.game = game;
 
@@ -66,8 +64,8 @@ public class PlayScreen implements Screen {
 
         // create a viewport that maintains the virtual aspect ratio
         gameViewport = new FitViewport(
-                SuperMarioBros.V_WIDTH / SuperMarioBros.PPM,
-                SuperMarioBros.V_HEIGHT / SuperMarioBros.PPM,
+                MainGame.V_WIDTH / MainGame.PPM,
+                MainGame.V_HEIGHT / MainGame.PPM,
                 gameCam);
 
         // create the game HUD (score/time/level info)
@@ -76,7 +74,7 @@ public class PlayScreen implements Screen {
         // load the map and setup the map renderer
         mapLoader = new TmxMapLoader();
         map = mapLoader.load("map_tiled/map1-1.tmx");
-        renderer = new OrthogonalTiledMapRenderer(map, 1 /  SuperMarioBros.PPM);
+        renderer = new OrthogonalTiledMapRenderer(map, 1 /  MainGame.PPM);
 
         // initially sets the camera to be centered correctly at the start of the map
         gameCam.position.set(gameViewport.getWorldWidth() / 2, gameViewport.getWorldHeight() / 2, 0);
@@ -90,7 +88,7 @@ public class PlayScreen implements Screen {
         creator = new B2WorldCreator(this);
 
         // creates Mario in the game world
-        player = new Mario(this);
+        player = new Goku(this);
 
         world.setContactListener(new WorldContactListener());
 
@@ -147,7 +145,7 @@ public class PlayScreen implements Screen {
         player.update(dt);
         for(Enemy enemy : creator.getGoombas()) {
             enemy.update(dt);
-            if(enemy.getX() < player.getX() + 224 / SuperMarioBros.PPM) {
+            if(enemy.getX() < player.getX() + 224 / MainGame.PPM) {
                 enemy.b2dBody.setActive(true);
             }
         }

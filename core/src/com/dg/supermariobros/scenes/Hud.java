@@ -10,7 +10,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.utils.Disposable;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
-import com.dg.supermariobros.SuperMarioBros;
+import com.dg.supermariobros.MainGame;
 
 /**
  * Created by adrianodpdiaz on 10/25/2021.
@@ -40,7 +40,7 @@ public class Hud implements Disposable {
         score = 0;
 
         viewport = new FitViewport(
-                SuperMarioBros.V_WIDTH, SuperMarioBros.V_HEIGHT, new OrthographicCamera());
+                MainGame.V_WIDTH, MainGame.V_HEIGHT, new OrthographicCamera());
 
         stage = new Stage(viewport, sb);
         Table table = new Table();

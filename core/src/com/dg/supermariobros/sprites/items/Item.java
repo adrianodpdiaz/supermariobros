@@ -5,9 +5,9 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.World;
-import com.dg.supermariobros.SuperMarioBros;
+import com.dg.supermariobros.MainGame;
 import com.dg.supermariobros.screens.PlayScreen;
-import com.dg.supermariobros.sprites.Mario;
+import com.dg.supermariobros.sprites.Goku;
 
 public abstract class Item extends Sprite {
     protected PlayScreen screen;
@@ -21,7 +21,7 @@ public abstract class Item extends Sprite {
         this.screen = screen;
         this.world = screen.getWorld();
         setPosition(x, y);
-        setBounds(getX(), getY(), 16 / SuperMarioBros.PPM, 16 / SuperMarioBros.PPM);
+        setBounds(getX(), getY(), 16 / MainGame.PPM, 16 / MainGame.PPM);
 
         defineItem();
         toDestroy = false;
@@ -29,7 +29,7 @@ public abstract class Item extends Sprite {
     }
 
     public abstract void defineItem();
-    public abstract void use(Mario mario);
+    public abstract void use(Goku mario);
 
     public void update(float dt){
         if(toDestroy && !destroyed){

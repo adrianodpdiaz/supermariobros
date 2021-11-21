@@ -9,9 +9,8 @@ import com.badlogic.gdx.physics.box2d.CircleShape;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.utils.Array;
-import com.dg.supermariobros.SuperMarioBros;
+import com.dg.supermariobros.MainGame;
 import com.dg.supermariobros.screens.PlayScreen;
-import com.dg.supermariobros.sprites.enemies.Enemy;
 
 public class Goomba extends Enemy {
     private float stateTime;
@@ -33,7 +32,7 @@ public class Goomba extends Enemy {
         }
         walkAnimation = new Animation<TextureRegion>(0.4f, frames);
         stateTime = 0;
-        setBounds(getX(), getY(), 16 / SuperMarioBros.PPM, 16 / SuperMarioBros.PPM);
+        setBounds(getX(), getY(), 16 / MainGame.PPM, 16 / MainGame.PPM);
         setToDestroy = false;
         destroyed = false;
     }
@@ -63,15 +62,15 @@ public class Goomba extends Enemy {
 
         FixtureDef fixtureDef = new FixtureDef();
         CircleShape shape = new CircleShape();
-        shape.setRadius(8 / SuperMarioBros.PPM);
-        fixtureDef.filter.categoryBits = SuperMarioBros.ENEMY_BIT;
+        shape.setRadius(8 / MainGame.PPM);
+        fixtureDef.filter.categoryBits = MainGame.ENEMY_BIT;
         fixtureDef.filter.maskBits =
-                SuperMarioBros.GROUND_BIT
-                        | SuperMarioBros.BRICK_BIT
-                        | SuperMarioBros.COIN_BIT
-                        | SuperMarioBros.ENEMY_BIT
-                        | SuperMarioBros.OBJECT_BIT
-                        | SuperMarioBros.MARIO_BIT;
+                MainGame.GROUND_BIT
+                        | MainGame.BRICK_BIT
+                        | MainGame.COIN_BIT
+                        | MainGame.ENEMY_BIT
+                        | MainGame.OBJECT_BIT
+                        | MainGame.GOKU_BIT;
 
         fixtureDef.shape = shape;
         b2dBody.createFixture(fixtureDef).setUserData(this);
@@ -79,15 +78,15 @@ public class Goomba extends Enemy {
         // Creating the head
         PolygonShape head = new PolygonShape();
         Vector2[] vertex = new Vector2[4];
-        vertex[0] = new Vector2(-5, 8).scl(1 / SuperMarioBros.PPM);
-        vertex[1] = new Vector2(5, 8).scl(1 / SuperMarioBros.PPM);
-        vertex[2] = new Vector2(-3, 3).scl(1 / SuperMarioBros.PPM);
-        vertex[3] = new Vector2(3, 3).scl(1 / SuperMarioBros.PPM);
+        vertex[0] = new Vector2(-5, 8).scl(1 / MainGame.PPM);
+        vertex[1] = new Vector2(5, 8).scl(1 / MainGame.PPM);
+        vertex[2] = new Vector2(-3, 3).scl(1 / MainGame.PPM);
+        vertex[3] = new Vector2(3, 3).scl(1 / MainGame.PPM);
         head.set(vertex);
 
         fixtureDef.shape = head;
         fixtureDef.restitution = 0.5f;
-        fixtureDef.filter.categoryBits = SuperMarioBros.ENEMY_HEAD_BIT;
+        fixtureDef.filter.categoryBits = MainGame.ENEMY_HEAD_BIT;
         b2dBody.createFixture(fixtureDef).setUserData(this);
     }
 
