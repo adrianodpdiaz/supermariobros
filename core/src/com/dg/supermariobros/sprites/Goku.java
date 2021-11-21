@@ -43,6 +43,7 @@ public class Goku extends Sprite {
     private boolean isBig;
     private boolean runGrowAnimation;
     private boolean timeToDefineBigGoku;
+    private boolean timeToRedefineGoku;
 
     public Goku(PlayScreen screen) {
 
@@ -133,6 +134,45 @@ public class Goku extends Sprite {
         if(timeToDefineBigGoku) {
             defineBigGoku();
         }
+        if(timeToRedefineGoku) {
+            redefineGoku();
+        }
+    }
+
+    private void redefineGoku() {
+        Vector2 currentPosition = b2dBody.getPosition();
+        world.destroyBody(b2dBody);
+
+        BodyDef bodyDef = new BodyDef();
+        bodyDef.position.set(currentPosition);
+        bodyDef.type = BodyDef.BodyType.DynamicBody;
+        b2dBody = world.createBody(bodyDef);
+
+        FixtureDef fixtureDef = new FixtureDef();
+        CircleShape shape = new CircleShape();
+        shape.setRadius(8 / MainGame.PPM);
+        fixtureDef.filter.categoryBits = MainGame.GOKU_BIT;
+        fixtureDef.filter.maskBits =
+                MainGame.GROUND_BIT
+                        | MainGame.BRICK_BIT
+                        | MainGame.COIN_BIT
+                        | MainGame.ENEMY_BIT
+                        | MainGame.OBJECT_BIT
+                        | MainGame.ENEMY_HEAD_BIT
+                        | MainGame.ITEM_BIT;
+
+        fixtureDef.shape = shape;
+        b2dBody.createFixture(fixtureDef).setUserData(this);
+
+        EdgeShape head = new EdgeShape();
+        head.set(new Vector2(-2 / MainGame.PPM, 7 / MainGame.PPM),
+                new Vector2(2 / MainGame.PPM, 7 / MainGame.PPM));
+        fixtureDef.filter.categoryBits = MainGame.GOKU_HEAD_BIT;
+        fixtureDef.shape = head;
+        fixtureDef.isSensor = true;
+
+        b2dBody.createFixture(fixtureDef).setUserData(this);
+        timeToRedefineGoku = false;
     }
 
     public TextureRegion getFrame(float dt) {
@@ -225,5 +265,14 @@ public class Goku extends Sprite {
 
     public boolean isBig() {
         return isBig;
+    }
+
+    public void hit() {
+        if(isBig) {
+            isBig = false;
+            timeToRedefineGoku = true;
+            setBounds(getX(), getY(), getWidth(), getHeight() / 2);
+        }
+
     }
 }

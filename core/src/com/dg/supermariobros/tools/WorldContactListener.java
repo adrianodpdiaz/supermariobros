@@ -42,7 +42,10 @@ public class WorldContactListener implements ContactListener {
                     ((Enemy) fixtureB.getUserData()).reverseVelocity(true, false);
                 break;
             case MainGame.GOKU_BIT | MainGame.ENEMY_BIT:
-                Gdx.app.log("goku", "died");
+                if (fixtureA.getFilterData().categoryBits == MainGame.GOKU_BIT)
+                    ((Goku) fixtureA.getUserData()).hit();
+                else
+                    ((Goku) fixtureB.getUserData()).hit();
                 break;
             case MainGame.ENEMY_BIT | MainGame.ENEMY_BIT:
                 ((Enemy) fixtureA.getUserData()).reverseVelocity(true, false);
