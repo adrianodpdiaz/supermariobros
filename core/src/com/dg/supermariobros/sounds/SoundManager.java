@@ -18,6 +18,9 @@ public class SoundManager implements Disposable {
         assetManager.load("audio/sounds/breakblock.wav", Sound.class);
         assetManager.load("audio/sounds/vine.wav", Sound.class);
         assetManager.load("audio/sounds/powerup.wav", Sound.class);
+        assetManager.load("audio/sounds/powerdown.wav", Sound.class);
+        assetManager.load("audio/sounds/stomp.wav", Sound.class);
+        assetManager.load("audio/sounds/die.wav", Sound.class);
 
         assetManager.finishLoading();
     }

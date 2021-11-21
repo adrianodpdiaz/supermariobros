@@ -1,5 +1,6 @@
 package com.dg.supermariobros.sprites.enemies;
 
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
@@ -11,6 +12,7 @@ import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.utils.Array;
 import com.dg.supermariobros.MainGame;
 import com.dg.supermariobros.screens.PlayScreen;
+import com.dg.supermariobros.sounds.SoundManager;
 
 public class Goomba extends Enemy {
     private float stateTime;
@@ -62,7 +64,7 @@ public class Goomba extends Enemy {
 
         FixtureDef fixtureDef = new FixtureDef();
         CircleShape shape = new CircleShape();
-        shape.setRadius(8 / MainGame.PPM);
+        shape.setRadius(6.2f / MainGame.PPM);
         fixtureDef.filter.categoryBits = MainGame.ENEMY_BIT;
         fixtureDef.filter.maskBits =
                 MainGame.GROUND_BIT
@@ -80,8 +82,8 @@ public class Goomba extends Enemy {
         Vector2[] vertex = new Vector2[4];
         vertex[0] = new Vector2(-5, 8).scl(1 / MainGame.PPM);
         vertex[1] = new Vector2(5, 8).scl(1 / MainGame.PPM);
-        vertex[2] = new Vector2(-3, 3).scl(1 / MainGame.PPM);
-        vertex[3] = new Vector2(3, 3).scl(1 / MainGame.PPM);
+        vertex[2] = new Vector2(-3, 5).scl(1 / MainGame.PPM);
+        vertex[3] = new Vector2(3, 5).scl(1 / MainGame.PPM);
         head.set(vertex);
 
         fixtureDef.shape = head;
@@ -98,5 +100,6 @@ public class Goomba extends Enemy {
     @Override
     public void hitOnHead() {
         setToDestroy = true;
+        new SoundManager().getAssetManager().get("audio/sounds/stomp.wav", Sound.class).play();
     }
 }

@@ -13,6 +13,7 @@ import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.Array;
 import com.dg.supermariobros.MainGame;
+import com.dg.supermariobros.scenes.Hud;
 import com.dg.supermariobros.screens.PlayScreen;
 import com.dg.supermariobros.sounds.SoundManager;
 
@@ -150,7 +151,7 @@ public class Goku extends Sprite {
 
         FixtureDef fixtureDef = new FixtureDef();
         CircleShape shape = new CircleShape();
-        shape.setRadius(8 / MainGame.PPM);
+        shape.setRadius(7.5f / MainGame.PPM);
         fixtureDef.filter.categoryBits = MainGame.GOKU_BIT;
         fixtureDef.filter.maskBits =
                 MainGame.GROUND_BIT
@@ -224,11 +225,15 @@ public class Goku extends Sprite {
     }
 
     public void grow() {
-        runGrowAnimation = true;
-        isBig = true;
-        timeToDefineBigGoku = true;
-        setBounds(getX(), getY(), getWidth(), getHeight() * 2);
-        new SoundManager().getAssetManager().get("audio/sounds/powerup.wav", Sound.class).play();
+        if(!isBig) {
+            runGrowAnimation = true;
+            isBig = true;
+            timeToDefineBigGoku = true;
+            setBounds(getX(), getY(), getWidth(), getHeight() * 2);
+            new SoundManager().getAssetManager().get("audio/sounds/powerup.wav", Sound.class).play();
+        } else {
+            Hud.addScore(100);
+        }
     }
 
     public void defineGoku() {
@@ -239,7 +244,7 @@ public class Goku extends Sprite {
 
         FixtureDef fixtureDef = new FixtureDef();
         CircleShape shape = new CircleShape();
-        shape.setRadius(8 / MainGame.PPM);
+        shape.setRadius(7.5f / MainGame.PPM);
         fixtureDef.filter.categoryBits = MainGame.GOKU_BIT;
         fixtureDef.filter.maskBits =
                 MainGame.GROUND_BIT
@@ -272,7 +277,9 @@ public class Goku extends Sprite {
             isBig = false;
             timeToRedefineGoku = true;
             setBounds(getX(), getY(), getWidth(), getHeight() / 2);
+            new SoundManager().getAssetManager().get("audio/sounds/powerdown.wav", Sound.class).play();
+        } else {
+            new SoundManager().getAssetManager().get("audio/sounds/die.wav", Sound.class).play();
         }
-
     }
 }
