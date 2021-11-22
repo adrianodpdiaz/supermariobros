@@ -23,6 +23,7 @@ import com.dg.supermariobros.sprites.enemies.Enemy;
 import com.dg.supermariobros.sprites.enemies.Turtle;
 
 public class Goku extends Sprite {
+
     public enum State {
         FALLING,
         JUMPING,
@@ -114,7 +115,8 @@ public class Goku extends Sprite {
                         | MainGame.OBJECT_BIT
                         | MainGame.ENEMY_HEAD_BIT
                         | MainGame.ITEM_BIT
-                        | MainGame.HOLE_BIT;
+                        | MainGame.HOLE_BIT
+                        | MainGame.FLAGPOLE_BIT;
 
         fixtureDef.shape = shape;
         b2dBody.createFixture(fixtureDef).setUserData(this);
@@ -150,7 +152,8 @@ public class Goku extends Sprite {
                         | MainGame.OBJECT_BIT
                         | MainGame.ENEMY_HEAD_BIT
                         | MainGame.ITEM_BIT
-                        | MainGame.HOLE_BIT;
+                        | MainGame.HOLE_BIT
+                        | MainGame.FLAGPOLE_BIT;
 
         fixtureDef.shape = shape;
         b2dBody.createFixture(fixtureDef).setUserData(this);
@@ -189,7 +192,8 @@ public class Goku extends Sprite {
                         | MainGame.OBJECT_BIT
                         | MainGame.ENEMY_HEAD_BIT
                         | MainGame.ITEM_BIT
-                        | MainGame.HOLE_BIT;
+                        | MainGame.HOLE_BIT
+                        | MainGame.FLAGPOLE_BIT;
 
         fixtureDef.shape = shape;
         b2dBody.createFixture(fixtureDef).setUserData(this);
@@ -320,6 +324,10 @@ public class Goku extends Sprite {
                 b2dBody.applyLinearImpulse(new Vector2(0, 4f), b2dBody.getWorldCenter(), true);
             }
         }
+    }
+
+    public void win() {
+        b2dBody.applyLinearImpulse(new Vector2(2f, 0), b2dBody.getWorldCenter(), true);
     }
 
 }

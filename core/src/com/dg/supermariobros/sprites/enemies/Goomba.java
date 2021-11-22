@@ -4,6 +4,7 @@ import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.maps.MapObject;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.CircleShape;
@@ -26,8 +27,8 @@ public class Goomba extends Enemy {
     private boolean setToDestroy;
     private boolean destroyed;
 
-    public Goomba(PlayScreen screen, float x, float y) {
-        super(screen, x, y);
+    public Goomba(PlayScreen screen, MapObject object) {
+        super(screen, object);
         frames = new Array<TextureRegion>();
 
         for(int i = 0; i < 2; i++) {
@@ -102,5 +103,13 @@ public class Goomba extends Enemy {
     public void hitOnHead(Goku goku) {
         setToDestroy = true;
         new SoundManager().getAssetManager().get("audio/sounds/stomp.wav", Sound.class).play();
+    }
+
+    @Override
+    public void onEnemyHit(Enemy enemy) {
+        if(enemy instanceof Turtle && ((Turtle) enemy).currentState == Turtle.State.MOVING_SHELL)
+            setToDestroy = true;
+        else
+            reverseVelocity(true, false);
     }
 }

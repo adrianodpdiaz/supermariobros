@@ -41,16 +41,18 @@ public class WorldContactListener implements ContactListener {
                 else
                     ((Enemy) fixtureB.getUserData()).reverseVelocity(true, false);
                 break;
-            case MainGame.GOKU_BIT | MainGame.ENEMY_BIT:
             case MainGame.GOKU_BIT | MainGame.HOLE_BIT:
+            case MainGame.GOKU_BIT | MainGame.ENEMY_BIT:
                 if (fixtureA.getFilterData().categoryBits == MainGame.GOKU_BIT)
                     ((Goku) fixtureA.getUserData()).hit((Enemy) fixtureB.getUserData());
                 else
                     ((Goku) fixtureB.getUserData()).hit((Enemy) fixtureA.getUserData());
                 break;
             case MainGame.ENEMY_BIT | MainGame.ENEMY_BIT:
-                ((Enemy) fixtureA.getUserData()).reverseVelocity(true, false);
-                ((Enemy) fixtureB.getUserData()).reverseVelocity(true, false);
+                if (fixtureA.getFilterData().categoryBits == MainGame.GOKU_BIT)
+                    ((Enemy) fixtureA.getUserData()).onEnemyHit((Enemy) fixtureB.getUserData());
+                else
+                    ((Enemy) fixtureB.getUserData()).onEnemyHit((Enemy) fixtureA.getUserData());
                 break;
             case MainGame.ITEM_BIT | MainGame.OBJECT_BIT:
                 if(fixtureA.getFilterData().categoryBits == MainGame.ITEM_BIT)
@@ -63,6 +65,12 @@ public class WorldContactListener implements ContactListener {
                     ((Item) fixtureA.getUserData()).use((Goku) fixtureB.getUserData());
                 else
                     ((Item) fixtureB.getUserData()).use((Goku) fixtureA.getUserData());
+                break;
+            case MainGame.GOKU_BIT | MainGame.FLAGPOLE_BIT:
+                if (fixtureA.getFilterData().categoryBits == MainGame.GOKU_BIT)
+                    ((Goku) fixtureA.getUserData()).win();
+                else
+                    ((Goku) fixtureB.getUserData()).win();
                 break;
         }
     }

@@ -142,6 +142,7 @@ public class PlayScreen implements Screen {
     }
 
     public void update(float dt) {
+
         // handle user input first
         handleInput(dt);
         handleSpawningItems();
@@ -151,9 +152,9 @@ public class PlayScreen implements Screen {
         player.update(dt);
         for(Enemy enemy : creator.getEnemies()) {
             enemy.update(dt);
-            if(enemy.getX() < player.getX() + 224 / MainGame.PPM) {
-                enemy.b2dBody.setActive(true);
-            }
+            if(enemy.getX() < player.getX() + 224 / MainGame.PPM ||
+                enemy.getObject().getProperties().containsKey("render"))
+                    enemy.b2dBody.setActive(true);
         }
         for(Item item : items) {
             item.update(dt);
@@ -161,10 +162,13 @@ public class PlayScreen implements Screen {
         hud.update(dt);
 
         if(player.currentState != Goku.State.DEAD) {
-            gameCam.position.x = player.b2dBody.getPosition().x;
+            if(player.b2dBody.getPosition().x < gameCam.viewportWidth / 2)
+                gameCam.position.x = clamp(gameCam.position.x, Gdx.graphics.getWidth() - gameCam.viewportWidth, 0);
+            else
+                gameCam.position.x = player.b2dBody.getPosition().x;
         }
-
         gameCam.update();
+
         // tells the renderer to draw only what the camera can see
         renderer.setView(gameCam);
     }
@@ -226,6 +230,16 @@ public class PlayScreen implements Screen {
             return true;
         }
         return false;
+    }
+
+    public float clamp(float var, float max, float min) {
+        if (var > min) {
+            if (var < max)
+                return var;
+            else
+                return max;
+        }
+        return min;
     }
 
     @Override

@@ -80,14 +80,15 @@ public class B2WorldCreator {
         goombas = new Array<Goomba>();
         for (MapObject object : map.getLayers().get(6).getObjects().getByType(RectangleMapObject.class)) {
             Rectangle rect = ((RectangleMapObject) object).getRectangle();
-            goombas.add(new Goomba(screen, rect.getX() / MainGame.PPM, rect.getY() / MainGame.PPM));
+            //goombas.add(new Goomba(screen, rect.getX() / MainGame.PPM, rect.getY() / MainGame.PPM));
+            goombas.add(new Goomba(screen, object));
         }
 
         // creates the turtles
         turtles = new Array<Turtle>();
         for (MapObject object : map.getLayers().get(7).getObjects().getByType(RectangleMapObject.class)) {
             Rectangle rect = ((RectangleMapObject) object).getRectangle();
-            turtles.add(new Turtle(screen, rect.getX() / MainGame.PPM, rect.getY() / MainGame.PPM));
+            turtles.add(new Turtle(screen, object));
         }
 
         // creates holes bodies/fixtures
@@ -104,6 +105,23 @@ public class B2WorldCreator {
                     (rect.getHeight() / 2) / MainGame.PPM);
             fixtureDef.shape = shape;
             fixtureDef.filter.categoryBits = MainGame.HOLE_BIT;
+            body.createFixture(fixtureDef);
+        }
+
+        // creates the flag pole
+        for (MapObject object : map.getLayers().get(9).getObjects().getByType(RectangleMapObject.class)) {
+            Rectangle rect = ((RectangleMapObject) object).getRectangle();
+            bodyDef.type = BodyDef.BodyType.StaticBody;
+            bodyDef.position.set(
+                    (rect.getX() + rect.getWidth() / 2) / MainGame.PPM,
+                    (rect.getY() + rect.getHeight() /2) / MainGame.PPM);
+            body = world.createBody(bodyDef);
+
+            shape.setAsBox(
+                    (rect.getWidth() / 2)  / MainGame.PPM,
+                    (rect.getHeight() / 2) / MainGame.PPM);
+            fixtureDef.shape = shape;
+            fixtureDef.filter.categoryBits = MainGame.FLAGPOLE_BIT;
             body.createFixture(fixtureDef);
         }
     }
