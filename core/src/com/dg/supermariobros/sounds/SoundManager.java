@@ -22,6 +22,8 @@ public class SoundManager implements Disposable {
         assetManager.load("audio/sounds/stomp.wav", Sound.class);
         assetManager.load("audio/sounds/die.wav", Sound.class);
         assetManager.load("audio/sounds/stage-clear.wav", Sound.class);
+        assetManager.load("audio/sounds/jump-small.wav", Sound.class);
+        assetManager.load("audio/sounds/jump-big.wav", Sound.class);
 
         assetManager.finishLoading();
     }

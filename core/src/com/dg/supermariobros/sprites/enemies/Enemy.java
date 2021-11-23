@@ -28,7 +28,7 @@ public abstract class Enemy extends Sprite {
         setPosition(rect.getX() / MainGame.PPM, rect.getY() / MainGame.PPM);
 
         defineEnemy();
-        velocity = new Vector2(-1.2f, 0);
+        velocity = new Vector2(-0.8f, 0);
 
         b2dBody.setActive(false);
         b2dBody.setGravityScale(15);

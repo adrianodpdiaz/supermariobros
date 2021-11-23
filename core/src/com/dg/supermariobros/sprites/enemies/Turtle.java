@@ -34,13 +34,14 @@ public class Turtle extends Enemy {
         frames = new Array<TextureRegion>();
         frames.add(new TextureRegion(screen.getAtlas().findRegion("mario"), 339, 38, 16, 24));
         frames.add(new TextureRegion(screen.getAtlas().findRegion("mario"), 355, 38, 16, 24));
-        shell = new TextureRegion(screen.getAtlas().findRegion("mario"), 403, 38, 16, 24);
         walkAnimation = new Animation(0.2f, frames);
         currentState = previousState = State.WALKING;
 
+        shell = new TextureRegion(screen.getAtlas().findRegion("mario"), 403, 38, 16, 24);
+
         deadRotationDegrees = 0;
 
-        setBounds(getX(), getY(), 16 / MainGame.PPM, 24 / MainGame.PPM);
+        setBounds(getX(), getY(), 15 / MainGame.PPM, 22 / MainGame.PPM);
     }
 
     @Override
@@ -68,8 +69,8 @@ public class Turtle extends Enemy {
         // Creating the head
         PolygonShape head = new PolygonShape();
         Vector2[] vertex = new Vector2[4];
-        vertex[0] = new Vector2(-5, 8).scl(1 / MainGame.PPM);
-        vertex[1] = new Vector2(5, 8).scl(1 / MainGame.PPM);
+        vertex[0] = new Vector2(-5, 8f).scl(1 / MainGame.PPM);
+        vertex[1] = new Vector2(5, 8f).scl(1 / MainGame.PPM);
         vertex[2] = new Vector2(-3, 5).scl(1 / MainGame.PPM);
         vertex[3] = new Vector2(3, 5).scl(1 / MainGame.PPM);
         head.set(vertex);

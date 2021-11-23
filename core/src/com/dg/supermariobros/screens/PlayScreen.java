@@ -104,6 +104,7 @@ public class PlayScreen implements Screen {
 
         items = new Array<Item>();
         itemsToSpawn = new LinkedBlockingQueue<ItemDef>();
+
     }
 
     public void spawnItem(ItemDef itemDef) {
@@ -129,11 +130,16 @@ public class PlayScreen implements Screen {
     }
 
     public void handleInput(float dt) {
-        if((player.currentState != Goku.State.DEAD) ){// && !player.getWinner()) {
+        if((player.currentState != Goku.State.DEAD) && !player.getWinner()) {
             if(player.b2dBody.getLinearVelocity().y == 0) {
                 if(Gdx.input.isKeyJustPressed(Input.Keys.UP)) {
+                    if(player.isBig())
+                        new SoundManager().getAssetManager().get("audio/sounds/jump-big.wav", Sound.class).play();
+                    else
+                        new SoundManager().getAssetManager().get("audio/sounds/jump-small.wav", Sound.class).play();
+
                     player.b2dBody.applyLinearImpulse(
-                            new Vector2(0, 4f), player.b2dBody.getWorldCenter(), true);
+                            new Vector2(0, 4.5f), player.b2dBody.getWorldCenter(), true);
                 }
             }
 
@@ -151,7 +157,7 @@ public class PlayScreen implements Screen {
         handleInput(dt);
         handleSpawningItems();
 
-        world.step(1/60f, 6, 2);
+        world.step(1/90f, 6, 2);
 
         player.update(dt);
         for(Enemy enemy : creator.getEnemies()) {

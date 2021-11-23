@@ -36,7 +36,7 @@ public class Goomba extends Enemy {
         }
         walkAnimation = new Animation<TextureRegion>(0.4f, frames);
         stateTime = 0;
-        setBounds(getX(), getY(), 16 / MainGame.PPM, 16 / MainGame.PPM);
+        setBounds(getX(), getY(), 15 / MainGame.PPM, 15 / MainGame.PPM);
         setToDestroy = false;
         destroyed = false;
     }
@@ -82,14 +82,14 @@ public class Goomba extends Enemy {
         // Creating the head
         PolygonShape head = new PolygonShape();
         Vector2[] vertex = new Vector2[4];
-        vertex[0] = new Vector2(-5, 8).scl(1 / MainGame.PPM);
-        vertex[1] = new Vector2(5, 8).scl(1 / MainGame.PPM);
-        vertex[2] = new Vector2(-3, 5).scl(1 / MainGame.PPM);
-        vertex[3] = new Vector2(3, 5).scl(1 / MainGame.PPM);
+        vertex[0] = new Vector2(-4, 8f).scl(1 / MainGame.PPM);
+        vertex[1] = new Vector2(4, 8f).scl(1 / MainGame.PPM);
+        vertex[2] = new Vector2(-3, 3).scl(1 / MainGame.PPM);
+        vertex[3] = new Vector2(3, 3).scl(1 / MainGame.PPM);
         head.set(vertex);
 
         fixtureDef.shape = head;
-        fixtureDef.restitution = 0.5f;
+        fixtureDef.restitution = 0.6f;
         fixtureDef.filter.categoryBits = MainGame.ENEMY_HEAD_BIT;
         b2dBody.createFixture(fixtureDef).setUserData(this);
     }

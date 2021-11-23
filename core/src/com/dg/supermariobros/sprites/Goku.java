@@ -93,8 +93,7 @@ public class Goku extends Sprite {
         bigGokuJump = new TextureRegion(screen.getAtlas().findRegion("big"), 94, 77, 33, 58);
 
         // Dead Texture Region
-        //850 - 793, 418 - 395
-        gokuDead = new TextureRegion(screen.getAtlas().findRegion("goku1"), 57, 23, 19, 19);
+        gokuDead = new TextureRegion(screen.getAtlas().findRegion("goku1"), 57, 23, 19, 15);
 
         // Growing Animation
         frames.add(new TextureRegion(screen.getAtlas().findRegion("big"), 9, 257, 30, 60));
@@ -119,17 +118,7 @@ public class Goku extends Sprite {
         CircleShape shape = new CircleShape();
         shape.setRadius(7.5f / MainGame.PPM);
         fixtureDef.filter.categoryBits = MainGame.GOKU_BIT;
-        fixtureDef.filter.maskBits =
-                MainGame.GROUND_BIT
-                        | MainGame.BRICK_BIT
-                        | MainGame.COIN_BIT
-                        | MainGame.ENEMY_BIT
-                        | MainGame.OBJECT_BIT
-                        | MainGame.ENEMY_HEAD_BIT
-                        | MainGame.ITEM_BIT
-                        | MainGame.HOLE_BIT
-                        | MainGame.FLAGPOLE_BIT
-                        | MainGame.INVISIBLE_BIT;
+        fixtureDef.filter.maskBits = collisionProfile();
 
         fixtureDef.shape = shape;
         b2dBody.createFixture(fixtureDef).setUserData(this);
@@ -141,6 +130,7 @@ public class Goku extends Sprite {
         fixtureDef.shape = head;
         fixtureDef.isSensor = true;
 
+        b2dBody.setGravityScale(1.5f);
         b2dBody.createFixture(fixtureDef).setUserData(this);
     }
 
@@ -157,17 +147,7 @@ public class Goku extends Sprite {
         CircleShape shape = new CircleShape();
         shape.setRadius(7 / MainGame.PPM);
         fixtureDef.filter.categoryBits = MainGame.GOKU_BIT;
-        fixtureDef.filter.maskBits =
-                MainGame.GROUND_BIT
-                        | MainGame.BRICK_BIT
-                        | MainGame.COIN_BIT
-                        | MainGame.ENEMY_BIT
-                        | MainGame.OBJECT_BIT
-                        | MainGame.ENEMY_HEAD_BIT
-                        | MainGame.ITEM_BIT
-                        | MainGame.HOLE_BIT
-                        | MainGame.FLAGPOLE_BIT
-                        | MainGame.INVISIBLE_BIT;
+        fixtureDef.filter.maskBits = collisionProfile();
 
         fixtureDef.shape = shape;
         b2dBody.createFixture(fixtureDef).setUserData(this);
@@ -181,6 +161,7 @@ public class Goku extends Sprite {
         fixtureDef.shape = head;
         fixtureDef.isSensor = true;
 
+        b2dBody.setGravityScale(1.5f);
         b2dBody.createFixture(fixtureDef).setUserData(this);
         timeToDefineBigGoku = false;
     }
@@ -198,17 +179,7 @@ public class Goku extends Sprite {
         CircleShape shape = new CircleShape();
         shape.setRadius(7.5f / MainGame.PPM);
         fixtureDef.filter.categoryBits = MainGame.GOKU_BIT;
-        fixtureDef.filter.maskBits =
-                MainGame.GROUND_BIT
-                        | MainGame.BRICK_BIT
-                        | MainGame.COIN_BIT
-                        | MainGame.ENEMY_BIT
-                        | MainGame.OBJECT_BIT
-                        | MainGame.ENEMY_HEAD_BIT
-                        | MainGame.ITEM_BIT
-                        | MainGame.HOLE_BIT
-                        | MainGame.FLAGPOLE_BIT
-                        | MainGame.INVISIBLE_BIT;
+        fixtureDef.filter.maskBits = collisionProfile();
 
         fixtureDef.shape = shape;
         b2dBody.createFixture(fixtureDef).setUserData(this);
@@ -220,6 +191,7 @@ public class Goku extends Sprite {
         fixtureDef.shape = head;
         fixtureDef.isSensor = true;
 
+        b2dBody.setGravityScale(1.5f);
         b2dBody.createFixture(fixtureDef).setUserData(this);
         timeToRedefineGoku = false;
     }
@@ -243,7 +215,7 @@ public class Goku extends Sprite {
             time += Gdx.graphics.getDeltaTime();
             b2dBody.setLinearVelocity(new Vector2(0.7f, b2dBody.getLinearVelocity().y));
 
-            if(time > 1.56f) {
+            if(time > 2.3f) {
                 b2dBody.setLinearVelocity(new Vector2(0,0));
             }
             if(time > 4.5f) {
@@ -252,10 +224,6 @@ public class Goku extends Sprite {
                 destroyTexture = true;
             }
         }
-    }
-
-    public boolean isDead() {
-        return gokuIsDead;
     }
 
     public boolean isBig() {
@@ -359,6 +327,7 @@ public class Goku extends Sprite {
         new SoundManager().getAssetManager().get("audio/sounds/stage-clear.wav", Sound.class).play();
 
         b2dBody.setGravityScale(0.05f);
+        b2dBody.setLinearVelocity(new Vector2(0, 0));
         winner = true;
         b2dBody.applyForce(new Vector2(0, -1f), b2dBody.getWorldCenter(), true);
     }
@@ -384,5 +353,19 @@ public class Goku extends Sprite {
     public void draw(Batch batch) {
         if(!destroyTexture)
             super.draw(batch);
+    }
+    
+    private short collisionProfile() {
+        return MainGame.GROUND_BIT
+                | MainGame.BRICK_BIT
+                | MainGame.COIN_BIT
+                | MainGame.ENEMY_BIT
+                | MainGame.OBJECT_BIT
+                | MainGame.ENEMY_HEAD_BIT
+                | MainGame.ITEM_BIT
+                | MainGame.HOLE_BIT
+                | MainGame.FLAGPOLE_BIT
+                | MainGame.WALL_BIT
+                | MainGame.INVISIBLE_BIT;
     }
 }

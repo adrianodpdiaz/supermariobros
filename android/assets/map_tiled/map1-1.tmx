@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.5" tiledversion="1.7.2" orientation="orthogonal" renderorder="right-down" width="240" height="13" tilewidth="16" tileheight="16" infinite="0" nextlayerid="13" nextobjectid="155">
+<map version="1.5" tiledversion="1.7.2" orientation="orthogonal" renderorder="right-down" width="240" height="13" tilewidth="16" tileheight="16" infinite="0" nextlayerid="13" nextobjectid="160">
  <tileset firstgid="1" source="tileset_overworld.tsx"/>
  <tileset firstgid="129" source="ice_cave_tileset2.tsx"/>
  <tileset firstgid="833" source="smr_tileset_snow.tsx"/>
@@ -53,8 +53,6 @@
   <object id="130" x="2496" y="128" width="16" height="48"/>
   <object id="131" x="2512" y="144" width="16" height="32"/>
   <object id="132" x="2528" y="160" width="16" height="16"/>
-  <object id="141" x="-16" y="0" width="16" height="176"/>
-  <object id="142" x="3840" y="0" width="16" height="176"/>
  </objectgroup>
  <objectgroup id="5" name="coins">
   <object id="14" x="256" y="112" width="16" height="16"/>
@@ -118,18 +116,18 @@
    </properties>
   </object>
   <object id="98" x="816" y="160" width="16" height="16"/>
-  <object id="99" x="848" y="160" width="16" height="16"/>
+  <object id="99" x="840" y="160" width="16" height="16"/>
   <object id="100" x="1280" y="32" width="16" height="16"/>
-  <object id="101" x="1312" y="32" width="16" height="16"/>
-  <object id="102" x="1584" y="160" width="16" height="16"/>
+  <object id="101" x="1304" y="32" width="16" height="16"/>
+  <object id="102" x="1576" y="160" width="16" height="16"/>
   <object id="103" x="1552" y="160" width="16" height="16"/>
   <object id="104" x="1824" y="160" width="16" height="16"/>
-  <object id="105" x="1856" y="160" width="16" height="16"/>
+  <object id="105" x="1848" y="160" width="16" height="16"/>
   <object id="106" x="1984" y="160" width="16" height="16"/>
-  <object id="107" x="2016" y="160" width="16" height="16"/>
-  <object id="108" x="2096" y="160" width="16" height="16"/>
+  <object id="107" x="2008" y="160" width="16" height="16"/>
+  <object id="108" x="2088" y="160" width="16" height="16"/>
   <object id="109" x="2064" y="160" width="16" height="16"/>
-  <object id="110" x="2816" y="160" width="16" height="16"/>
+  <object id="110" x="2808" y="160" width="16" height="16"/>
   <object id="111" x="2784" y="160" width="16" height="16"/>
   <object id="112" x="656" y="160" width="16" height="16"/>
  </objectgroup>
@@ -144,7 +142,10 @@
  <objectgroup id="10" name="flagpole">
   <object id="145" x="3176" y="9.66667" width="2.33333" height="151.333"/>
  </objectgroup>
- <objectgroup id="11" name="flag"/>
+ <objectgroup id="11" name="walls">
+  <object id="158" x="-16" y="0" width="16" height="208"/>
+  <object id="159" x="3840" y="0" width="16" height="208"/>
+ </objectgroup>
  <objectgroup id="12" name="invisible">
   <object id="154" x="3168.56" y="159.625" width="7.9375" height="0.875"/>
  </objectgroup>

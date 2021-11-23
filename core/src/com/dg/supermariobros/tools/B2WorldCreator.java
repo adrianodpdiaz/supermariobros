@@ -125,6 +125,23 @@ public class B2WorldCreator {
             body.createFixture(fixtureDef);
         }
 
+        // creates the walls/limits
+        for (MapObject object : map.getLayers().get(10).getObjects().getByType(RectangleMapObject.class)) {
+            Rectangle rect = ((RectangleMapObject) object).getRectangle();
+            bodyDef.type = BodyDef.BodyType.StaticBody;
+            bodyDef.position.set(
+                    (rect.getX() + rect.getWidth() / 2) / MainGame.PPM,
+                    (rect.getY() + rect.getHeight() /2) / MainGame.PPM);
+            body = world.createBody(bodyDef);
+
+            shape.setAsBox(
+                    (rect.getWidth() / 2)  / MainGame.PPM,
+                    (rect.getHeight() / 2) / MainGame.PPM);
+            fixtureDef.shape = shape;
+            fixtureDef.filter.categoryBits = MainGame.WALL_BIT;
+            body.createFixture(fixtureDef);
+        }
+
         // creates invisible layer
         for (MapObject object : map.getLayers().get(11).getObjects().getByType(RectangleMapObject.class)) {
             Rectangle rect = ((RectangleMapObject) object).getRectangle();

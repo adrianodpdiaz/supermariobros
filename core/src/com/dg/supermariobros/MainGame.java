@@ -23,6 +23,7 @@ public class MainGame extends Game {
 	public static final short HOLE_BIT = 1024;
 	public static final short FLAGPOLE_BIT = 2048;
 	public static final short INVISIBLE_BIT = 4096;
+	public static final short WALL_BIT = 8192;
 
 	public SpriteBatch batch;
 
