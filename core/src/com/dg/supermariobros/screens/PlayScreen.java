@@ -56,9 +56,13 @@ public class PlayScreen implements Screen {
 
     private Music music;
 
+    private boolean congratulations;
+
     public PlayScreen(MainGame game) {
         atlas = new TextureAtlas("goku.pack");
         this.game = game;
+
+        congratulations = false;
 
         //create the cam used to follow mario through cam world
         gameCam = new OrthographicCamera();
@@ -125,7 +129,7 @@ public class PlayScreen implements Screen {
     }
 
     public void handleInput(float dt) {
-        if(player.currentState != Goku.State.DEAD) {
+        if((player.currentState != Goku.State.DEAD) ){// && !player.getWinner()) {
             if(player.b2dBody.getLinearVelocity().y == 0) {
                 if(Gdx.input.isKeyJustPressed(Input.Keys.UP)) {
                     player.b2dBody.applyLinearImpulse(
@@ -162,7 +166,7 @@ public class PlayScreen implements Screen {
         hud.update(dt);
 
         if(player.currentState != Goku.State.DEAD) {
-            if(player.b2dBody.getPosition().x < gameCam.viewportWidth / 2)
+            if(player.b2dBody.getPosition().x < gameCam.viewportWidth /2)
                 gameCam.position.x = clamp(gameCam.position.x, Gdx.graphics.getWidth() - gameCam.viewportWidth, 0);
             else
                 gameCam.position.x = player.b2dBody.getPosition().x;
@@ -206,6 +210,10 @@ public class PlayScreen implements Screen {
             game.setScreen(new GameOverScreen(game));
             dispose();
         }
+        if(congratulations) {
+            game.setScreen(new WinnerScreen(game));
+            dispose();
+        }
     }
 
     @Override
@@ -223,6 +231,9 @@ public class PlayScreen implements Screen {
     }
     public Music getMusic() {
         return music;
+    }
+    public void setCongratulations(boolean value) {
+        this.congratulations = value;
     }
 
     public boolean gameOver() {

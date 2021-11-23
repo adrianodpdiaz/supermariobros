@@ -1,7 +1,8 @@
 package com.dg.supermariobros.sprites;
 
-import com.badlogic.gdx.audio.Music;
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Sound;
+import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.g2d.Animation;
@@ -30,10 +31,13 @@ public class Goku extends Sprite {
         STANDING,
         RUNNING,
         GROWING,
-        DEAD
+        DEAD,
+        WINNER
     }
     public State currentState;
     public State previousState;
+
+    private float time;
 
     public World world;
     public PlayScreen screen;
@@ -57,6 +61,10 @@ public class Goku extends Sprite {
     private boolean timeToRedefineGoku;
     private boolean gokuIsDead;
 
+    private boolean winner;
+    private boolean runToCastle;
+    private boolean destroyTexture;
+
     public Goku(PlayScreen screen) {
 
         this.world = screen.getWorld();
@@ -66,6 +74,10 @@ public class Goku extends Sprite {
         previousState = State.STANDING;
         stateTimer = 0;
         runningRight = true;
+
+        winner = false;
+        runToCastle = false;
+        destroyTexture = false;
 
         // Run Animations
         Array<TextureRegion> frames = new Array<TextureRegion>();
@@ -116,7 +128,8 @@ public class Goku extends Sprite {
                         | MainGame.ENEMY_HEAD_BIT
                         | MainGame.ITEM_BIT
                         | MainGame.HOLE_BIT
-                        | MainGame.FLAGPOLE_BIT;
+                        | MainGame.FLAGPOLE_BIT
+                        | MainGame.INVISIBLE_BIT;
 
         fixtureDef.shape = shape;
         b2dBody.createFixture(fixtureDef).setUserData(this);
@@ -153,7 +166,8 @@ public class Goku extends Sprite {
                         | MainGame.ENEMY_HEAD_BIT
                         | MainGame.ITEM_BIT
                         | MainGame.HOLE_BIT
-                        | MainGame.FLAGPOLE_BIT;
+                        | MainGame.FLAGPOLE_BIT
+                        | MainGame.INVISIBLE_BIT;
 
         fixtureDef.shape = shape;
         b2dBody.createFixture(fixtureDef).setUserData(this);
@@ -193,7 +207,8 @@ public class Goku extends Sprite {
                         | MainGame.ENEMY_HEAD_BIT
                         | MainGame.ITEM_BIT
                         | MainGame.HOLE_BIT
-                        | MainGame.FLAGPOLE_BIT;
+                        | MainGame.FLAGPOLE_BIT
+                        | MainGame.INVISIBLE_BIT;
 
         fixtureDef.shape = shape;
         b2dBody.createFixture(fixtureDef).setUserData(this);
@@ -223,6 +238,19 @@ public class Goku extends Sprite {
         }
         if(timeToRedefineGoku) {
             redefineGoku();
+        }
+        if(runToCastle) {
+            time += Gdx.graphics.getDeltaTime();
+            b2dBody.setLinearVelocity(new Vector2(0.7f, b2dBody.getLinearVelocity().y));
+
+            if(time > 1.56f) {
+                b2dBody.setLinearVelocity(new Vector2(0,0));
+            }
+            if(time > 4.5f) {
+                screen.setCongratulations(true);
+                world.destroyBody(b2dBody);
+                destroyTexture = true;
+            }
         }
     }
 
@@ -327,7 +355,34 @@ public class Goku extends Sprite {
     }
 
     public void win() {
-        b2dBody.applyLinearImpulse(new Vector2(2f, 0), b2dBody.getWorldCenter(), true);
+        screen.getMusic().stop();
+        new SoundManager().getAssetManager().get("audio/sounds/stage-clear.wav", Sound.class).play();
+
+        b2dBody.setGravityScale(0.05f);
+        winner = true;
+        b2dBody.applyForce(new Vector2(0, -1f), b2dBody.getWorldCenter(), true);
     }
 
+    public void goToTheCastle() {
+        b2dBody.setGravityScale(1f);
+        runToCastle = true;
+
+        Filter filter = new Filter();
+        filter.maskBits =
+                MainGame.GROUND_BIT
+                        | MainGame.OBJECT_BIT
+                        | MainGame.INVISIBLE_BIT;
+        for(Fixture fixture : b2dBody.getFixtureList())
+            fixture.setFilterData(filter);
+    }
+
+    public boolean getWinner() {
+        return winner;
+    }
+
+    @Override
+    public void draw(Batch batch) {
+        if(!destroyTexture)
+            super.draw(batch);
+    }
 }

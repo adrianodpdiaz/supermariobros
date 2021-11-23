@@ -72,6 +72,12 @@ public class WorldContactListener implements ContactListener {
                 else
                     ((Goku) fixtureB.getUserData()).win();
                 break;
+            case MainGame.GOKU_BIT | MainGame.INVISIBLE_BIT:
+                if (fixtureA.getFilterData().categoryBits == MainGame.GOKU_BIT)
+                    ((Goku) fixtureA.getUserData()).goToTheCastle();
+                else
+                    ((Goku) fixtureB.getUserData()).goToTheCastle();
+                break;
         }
     }
 
