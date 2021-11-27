@@ -46,7 +46,7 @@ public class PlayScreen implements Screen {
 
     // Box2d variables
     private World world;
-    private Box2DDebugRenderer b2dr;
+    //private Box2DDebugRenderer b2dr;
     private B2WorldCreator creator;
 
     // Sprites
@@ -57,6 +57,7 @@ public class PlayScreen implements Screen {
     private Music music;
 
     private boolean congratulations;
+    private float time;
 
     public PlayScreen(MainGame game) {
         atlas = new TextureAtlas("goku.pack");
@@ -88,7 +89,7 @@ public class PlayScreen implements Screen {
         world = new World(new Vector2(0, -10), true);
 
         // Debug Lines
-        b2dr = new Box2DDebugRenderer();
+        //b2dr = new Box2DDebugRenderer();
 
         creator = new B2WorldCreator(this);
 
@@ -195,7 +196,7 @@ public class PlayScreen implements Screen {
         renderer.render();
 
         // render Box2DDebugLines
-        b2dr.render(world, gameCam.combined);
+        //b2dr.render(world, gameCam.combined);
 
         game.batch.setProjectionMatrix(gameCam.combined);
         game.batch.begin();
@@ -217,8 +218,12 @@ public class PlayScreen implements Screen {
             dispose();
         }
         if(congratulations) {
-            game.setScreen(new WinnerScreen(game));
-            dispose();
+            time += Gdx.graphics.getDeltaTime();
+
+            if(time > 0.8f) {
+                game.setScreen(new WinnerScreen(game));
+                dispose();
+            }
         }
     }
 
@@ -271,7 +276,7 @@ public class PlayScreen implements Screen {
         map.dispose();
         renderer.dispose();
         world.dispose();
-        b2dr.dispose();
+        //b2dr.dispose();
         hud.dispose();
     }
 }

@@ -218,7 +218,7 @@ public class Goku extends Sprite {
             if(time > 2.3f) {
                 b2dBody.setLinearVelocity(new Vector2(0,0));
             }
-            if(time > 4.5f) {
+            if(time > 4f) {
                 screen.setCongratulations(true);
                 world.destroyBody(b2dBody);
                 destroyTexture = true;
