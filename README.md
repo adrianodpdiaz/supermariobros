@@ -7,8 +7,8 @@ This project was bootstraped with [`libGDX`](https://libgdx.com/).
 
 To update the dependencies, you can use [`Gradle`](https://gradle.org/).
 
-Made by [`Adriano Diaz`](https://www.linkedin.com/in/adriano-diaz/) :bird:
-
 <p align="center">
   <img src="/android/assets/game.gif" style="width: 550px;"/>
 </p>
+
+Made with ❤️ by [`Adriano Diaz`](https://www.linkedin.com/in/adriano-diaz/) :bird:
