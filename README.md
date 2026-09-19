@@ -7,7 +7,7 @@ This project was bootstraped with [`libGDX`](https://libgdx.com/).
 
 To update the dependencies, you can use [`Gradle`](https://gradle.org/).
 
-<p align="center">
+<p>
   <img src="/android/assets/game.gif" style="width: 550px;"/>
 </p>
 
